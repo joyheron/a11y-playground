@@ -5,18 +5,125 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
-      content="A collection of HTML examples to test and optimize their accessibility">
+      content="How to represent a list of articles">
   </head>
   <body>
-    <h1>Accessibility Playground</h1>
-    This page collects HTML examples to test out different variants with a screenreader.
+    <h1>A List of Articles</h1>
 
-    <ul>
-      <li>
-        <a href="list-of-articles.html">
-          Test out how a list of articles works with HTML
-        </a>
-      </li>
-    </ul>
+    <nav aria-labelledby="toc-label">
+      <span id="toc-label" aria-hidden="true">Table of Contents</span>
+      <ul>
+        <li><a href="#one-article-after-another">One Article after Another</a></li>
+        <li><a href="#a-list-of-articles">A list of articles</a></li>
+      </ul>
+    </nav>
+
+    In many different types of websites we want to show a list of different
+    entries and be able to navigate through these entries.
+    For simple entries, it would probably be sufficient to use a normal HTML list,
+    but for more complicated entries, we can use the HTML article element.
+
+    <section>
+      <h2 id="one-article-after-another">One Article after Another</h2>
+
+      This example lists out one article after another in the HTML document,
+      without wrapping it in any other HTML elements.
+      The buttons in this example are currently dummy buttons which represent
+      actions that a user might want to make,
+      but do not currently provide any functionality.
+
+      <article>
+        <h3>A New Pair of Shoes</h3>
+        <dl>
+          <dt>Price</dt>
+          <dd>$14.99</dd>
+          <dt>Discount</dt>
+          <dd>15%</dd>
+        </dl>
+        <footer>
+          <button type="button">Order now</button>
+        </footer>
+      </article>
+      <article>
+        <h3>A Beautiful Sweatshirt</h3>
+        <dl>
+          <dt>Price</dt>
+          <dd>$9.99</dd>
+          <dt>Discount</dt>
+          <dd>9%</dd>
+        </dl>
+        <footer>
+          <button type="button">Order now</button>
+        </footer>
+      </article>
+      <article>
+        <h3>A brand new Smartphone</h3>
+        <dl>
+          <dt>Price</dt>
+          <dd>$199.99</dd>
+          <dt>Discount</dt>
+          <dd>9%</dd>
+        </dl>
+        <footer>
+          <button type="button">Order now</button>
+        </footer>
+      </article>
+    </section>
+    <section>
+      <h2 id="a-list-of-articles">A list of articles</h2>
+
+      This example lists out one article after another in the HTML document,
+      but wraps the list of articles in an HTML list.
+      This gives additional context information to a screenreader,
+      so the user can tell how many articles are currently listed on the page.
+      The buttons in this example are currently dummy buttons which represent
+      actions that a user might want to make,
+      but do not currently provide any functionality.
+
+      <ul>
+        <li>
+          <article>
+            <h3>A New Pair of Shoes</h3>
+            <dl>
+              <dt>Price</dt>
+              <dd>$14.99</dd>
+              <dt>Discount</dt>
+              <dd>15%</dd>
+            </dl>
+            <footer>
+              <button type="button">Order now</button>
+            </footer>
+          </article>
+        </li>
+        <li>
+          <article>
+            <h3>A Beautiful Sweatshirt</h3>
+            <dl>
+              <dt>Price</dt>
+              <dd>$9.99</dd>
+              <dt>Discount</dt>
+              <dd>9%</dd>
+            </dl>
+            <footer>
+              <button type="button">Order now</button>
+            </footer>
+          </article>
+        </li>
+        <li>
+          <article>
+            <h3>A brand new Smartphone</h3>
+            <dl>
+              <dt>Price</dt>
+              <dd>$199.99</dd>
+              <dt>Discount</dt>
+              <dd>9%</dd>
+            </dl>
+            <footer>
+              <button type="button">Order now</button>
+            </footer>
+          </article>
+        </li>
+      </ul>
+    </section>
   </body>
 </html>
