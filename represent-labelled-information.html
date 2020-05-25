@@ -26,16 +26,20 @@
     <section>
       <h2 id="description-list">Description List</h2>
 
-      A description list seems like the HTML structure which you would automatically reach
-      for when implementing this use case, because its intention is list out a term followed
-      by the definition which is associated with it.
+      <p>
+        A description list seems like the HTML structure which you would automatically reach
+        for when implementing this use case, because its intention is list out a term followed
+        by the definition which is associated with it.
+      </p>
 
-      However, the description list's HTML structure is sometimes not ideal,
-      because we are not allowed to add any elements around the <code>dt</code> and <code>dd</code> tags
-      in the HTML.
-      This limits the amount of visual style that is possible with CSS
-      (e.g. it isn't possible to easily show the label / value pairs next to each other in the UI),
-      so it isn't ideal for all circumstances.
+      <p>
+        However, the description list's HTML structure is sometimes not ideal,
+        because we are not allowed to add any elements around the <code>dt</code> and <code>dd</code> tags
+        in the HTML.
+        This limits the amount of visual style that is possible with CSS
+        (e.g. it isn't possible to easily show the label / value pairs next to each other in the UI),
+        so it isn't ideal for all circumstances.
+      </p>
 
       <dl>
         <dt>Discount</dt>
@@ -47,13 +51,17 @@
     <section>
       <h2 id="unordered-list">An unordered list</h2>
 
-      This attempts to rectify the shortcomings of the definition list by inserting the label and value
-      pairs as a single list entry.
+      <p>
+        This attempts to rectify the shortcomings of the definition list by inserting the label and value
+        pairs as a single list entry.
+      </p>
 
-      However, this only groups them together in the UI within a list, but doesn't actually semantically
-      link the label with its value.
-      Also, it would be easy to argue that the list context in this example is superfluous,
-      since the labelled information here isn't really a list.
+      <p>
+        However, this only groups them together in the UI within a list, but doesn't actually semantically
+        link the label with its value.
+        Also, it would be easy to argue that the list context in this example is superfluous,
+        since the labelled information here isn't really a list.
+      </p>
 
       <ul>
         <li>Discount: 9%</li>
@@ -63,15 +71,19 @@
     <section>
       <h2 id="no-list-at-all">No list at all (group)</h2>
 
-      This uses the <code>group</code> attribute to group related information together.
-      I like this method because it semantically identifies the label and its value.
+      <p>
+        This uses the <code>group</code> attribute to group related information together.
+        I like this method because it semantically identifies the label and its value.
+      </p>
 
-      Here, we are using the <code>aria-labelledby</code> attribute to generate the label
-      for the group and hiding the actual label with the <code>aria-hidden</code> attribute.
-      We can hide the label because its value is already read out by the screenreader.
-      If the group is duplicated on the page (and the label is therefore also duplicated),
-      we need to make sure that we generate a unique id for the label element OR use
-      <code>aria-label</code> instead.
+      <p>
+        Here, we are using the <code>aria-labelledby</code> attribute to generate the label
+        for the group and hiding the actual label with the <code>aria-hidden</code> attribute.
+        We can hide the label because its value is already read out by the screenreader.
+        If the group is duplicated on the page (and the label is therefore also duplicated),
+        we need to make sure that we generate a unique id for the label element OR use
+        <code>aria-label</code> instead.
+      </p>
 
       <div class="group" aria-labelledby="discountGenUniqueId">
         <div id="discountGenUniqueId" aria-hidden="true">Discount</div>
