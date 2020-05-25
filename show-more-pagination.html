@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
       content="How to create show more pagination">
+    <style>
+      sr-hint, .sr-only {
+        clip: rect(1px, 1px, 1px, 1px);
+        clip-path: inset(50%);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+      }
+    </style>
   </head>
   <body>
     <h1>Show More Pagination</h1>
@@ -22,6 +34,7 @@
       <li>Element 4</li>
     </ul>
     <button is="show-more-btn" data-list="#list">Show More</button>
+    <a href="#list">Back to beginning of list</a>
 
     <script>
       if(this.customElements)
@@ -63,6 +76,7 @@
             list.appendChild(li);
           })
           firstLi.setAttribute("tabindex", "-1");
+          firstLi.insertBefore(this.srHint(), firstLi.firstChild);
 
           firstLi.focus();
 
@@ -78,11 +92,27 @@
             .join("");
         }
 
+        srHint () {
+          return html2dom("<sr-hint>First new entry: </sr-hint>").querySelector("sr-hint");
+        }
+
         get list () {
           return document.querySelector(this.getAttribute("data-list"))
         }
       }
       customElements.define('show-more-btn', ShowMorePagination, { extends: 'button' })
+
+      class ScreenReaderHint extends HTMLElement {
+        connectedCallback () {
+          console.log("hi!");
+          setTimeout(this.delete.bind(this), 10000);
+        }
+
+        delete () {
+          this.parentNode.removeChild(this);
+        }
+      }
+      customElements.define("sr-hint", ScreenReaderHint);
     </script>
   </body>
 </html>
