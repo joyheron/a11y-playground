@@ -67,7 +67,6 @@
         }
 
         paginate () {
-
           var newUl = html2dom(`<ul>${this.dummyHtmlContent()}</ul>`);
           var lis = [].slice.call(newUl.querySelectorAll("li"));
 
@@ -94,7 +93,8 @@
         }
 
         srHint () {
-          return html2dom("<sr-hint>First new entry: </sr-hint>").querySelector("sr-hint");
+          let hint = this.list.querySelector("sr-hint");
+          return hint || html2dom("<sr-hint>First new entry: </sr-hint>").querySelector("sr-hint");
         }
 
         get list () {
@@ -102,18 +102,6 @@
         }
       }
       customElements.define('show-more-btn', ShowMorePagination, { extends: 'button' })
-
-      class ScreenReaderHint extends HTMLElement {
-        connectedCallback () {
-          console.log("hi!");
-          setTimeout(this.delete.bind(this), 10000);
-        }
-
-        delete () {
-          this.parentNode.removeChild(this);
-        }
-      }
-      customElements.define("sr-hint", ScreenReaderHint);
     </script>
   </body>
 </html>
