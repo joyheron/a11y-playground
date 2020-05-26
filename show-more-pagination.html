@@ -27,6 +27,7 @@
     The idea is to focus the reader on the next new item when the "Show More" button is clicked.
     To do so, it is necessary to set the <code>tabindex</code> on the elements to make them focussable.
 
+    <div id="list-beginning"><span class="sr-only">Element List</span></div>
     <ul id="list">
       <li>Element 1</li>
       <li>Element 2</li>
@@ -34,7 +35,7 @@
       <li>Element 4</li>
     </ul>
     <button is="show-more-btn" data-list="#list">Show More</button>
-    <a href="#list">Back to beginning of list</a>
+    <a href="#list-beginning">Back to beginning of list</a>
 
     <script>
       if(this.customElements)
