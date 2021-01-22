@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Test für Buttons mit einer Beschreibung</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+      content="How to test buttons">
+  </head>
+  <body>
+    <h1>Tests für HTML Buttons mit einer Beschreibung</h1>
+
+    <h2>HTML Button ohne jegliche Beschreibung</h2>
+    <p>
+      Das folgende Button Element hat keine zusätzliche Information, deswegen
+      sollte es <em>auf jeden Fall</em> als Schaltfläche angezeigt werden.
+    </p>
+    <button>Eine Schaltfläche</button>
+
+    <h2>HTML Button mit aria-describedby</h2>
+    <p>
+      Das folgende Button Element hat eine <code>aria-describedby</code>
+      Attribut. Das Ziel ist es, dem Button mit dem folgenden Text zu
+      verknüpfen:
+      <span id="info">Raum Monheim um 10:00 Uhr</span>
+    </p>
+    <button aria-describedby="info">Eine Schaltfläche</button>
+
+    <h2>HTML Button mit aria-labelledby</h2>
+    <p>
+      Vielleicht ist <code>aria-labelledby</code> eigentlich das, was
+      wir brauchen, um ein Button mit einer Text auf der Seite zu verknüpfen?
+      Das folgende Button Element tut genau das.
+    </p>
+    <button aria-labelledby="info">Eine Schaltfläche</button>
+
+  </body>
+</html>
