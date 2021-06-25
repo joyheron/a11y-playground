@@ -1,0 +1,39 @@
+:root {
+  --spacer-xxs: 0.25rem;
+  --spacer-xs: 0.5rem;
+  --spacer-sm: 0.75rem;
+  --spacer-base: 1.25rem;
+  --spacer-md: 2rem;
+  --spacer-lg: 3.25rem;
+}
+
+body {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin: auto;
+  max-width: 70ch;
+  padding: var(--spacer-lg);
+}
+
+ul {
+  padding: 0 var(--spacer-base);
+}
+ul > li + li {
+  margin-top: var(--spacer-xs);
+}
+
+button {
+  border-radius: var(--spacer-xs);
+  padding: var(--spacer-xxs) var(--spacer-xs);
+  border: 1px solid gray;
+  margin: var(--spacer-xs) 0;
+}
+
+button + a,
+a + button {
+  margin-left: var(--spacer-xxs);
+}
+
+:focus {
+  outline: 2px solid lightskyblue;
+  outline-offset: var(--spacer-xxs);
+}
