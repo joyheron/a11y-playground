@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Multi-select in Dialog</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+      content="How to manage a multi-select element within a dialog popup">
+    <link href="joy.css" rel="stylesheet">
+  </head>
+  <body>
+    <a href="/">List of all Examples</a>
+
+    <h1>Multi-select options within a dialog Popup</h1>
+
+    <nav aria-labelledby="toc-label">
+      <span id="toc-label" aria-hidden="true">Table of Contents</span>
+      <ul>
+        <li><a href="#checkbox-list">A list of checkboxes</a></li>
+        <li><a href="#multi-select">A select element with multiple attribute</a></li>
+				<li><a href="#custom-listbox">A custom listbox element with attribute aria-multiselectable</a></li>
+      </ul>
+    </nav>
+
+		<p>
+			In certain contexts, we want to create a component to allow the user to
+			select multiple options for a specific category that we provide for the user.
+			The user should be able to open a dialog in order to select the options and
+			then close the dialog when finished.
+		</p>
+
+		<p>
+			There are several different HTML components that we can use for the actual
+			selection of the different options which we want to compare here. The dialog
+			should work the same for each option.
+		</p>
+
+    <section>
+      <h2 id="checkbox-list">A list of checkboxes</h2>
+
+      <p>
+        In this example, we use a list of checkboxes within a group in order
+				to allow the user to select multiple options.
+      </p>
+
+			<button hidden aria-haspopup="dialog" aria-controls="checkbox-dialog" aria-label="Select multiple fruits">
+				Fruit <span class="nr-selected"><span class="nr"></span><span class="visually-hidden">selected</span></span>
+			</button>
+			<custom-dialog id="checkbox-dialog">
+				<checkbox-list>
+					<fieldset>
+						<legend>Fruit</legend>
+						<label for="all" hidden>Select All</label><input type="checkbox" hidden>
+						<label for="apple">Apple</label><input id="apple" type="checkbox" name="fruit" value="apple">
+						<label for="banana">Banana</label><input id="banana" type="checkbox" name="fruit" value="banana">
+						<label for="cherry">Cherry</label><input id="cherry" type="checkbox" name="fruit" value="cherry">
+						<label for="peach">Peach</label><input id="peach" type="checkbox" name="fruit" value="peach">
+						<label for="pear">Pear</label><input id="pear" type="checkbox" name="fruit" value="pear">
+					</fieldset>
+				</checkbox-list>
+				<div hidden>
+					<button type="button" name="reset-all">Reset All</button>
+					<button type="button" name="close">Close</button>
+				</div>
+			</custom-dialog>
+		</section>
+		<section>
+      <h2 id="multi-select">A select element with multiple attribute</h2>
+
+      <p>
+				In this example, we use a select element with the multiple attribute in
+				order to allow the user to select multiple options. Here there are some
+				concerns about usability: some users may not realize that they need to
+				use the Shift key on the keyboard in order to select multiple options.
+      </p>
+
+			<button hidden aria-haspopup="dialog" aria-controls="multi-select" aria-label="Select multiple fruits">
+				Fruit <span class="nr-selected"><span class="nr"></span><span class="visually-hidden">selected</span></span>
+			</button>
+			<custom-dialog id="multi-select">
+				<multi-select>
+					<button type="button" hidden>Select All</button>
+					<label for="multi-select-input">Select Fruit</label>
+					<select id="multi-select-input" multiple>
+						<option value="all" hidden>All</option>
+						<option>Apple</option>
+						<option>Banana</option>
+						<option>Cherry</option>
+						<option>Peach</option>
+						<option>Pear</option>
+					</select>
+				</multi-select>
+				<div hidden>
+					<button type="button" name="reset-all">Reset All</button>
+					<button type="button" name="close">Close</button>
+				</div>
+			</custom-dialog>
+    </section>
+		<section>
+      <h2 id="custom-listbox">A custom listbox element with attribute aria-multiselectable</h2>
+
+      <p>
+				In this example, we use a custom listbox element with the attribute aria-multiselectable
+				in order to allow the user to select multiple options.
+      </p>
+
+			<p>Coming Soon!</p>
+    </section>
+		<style>
+			multi-select,
+			multi-select label {
+				display: block;
+			}
+		</style>
+		<script>
+			class Dialog extends HTMLElement {
+				connectedCallback() {
+					this.toggle = document.querySelector(`[aria-controls="${this.id}"]`);
+					this.toggle.hidden = false;
+
+					this.focussableElements = this.querySelectorAll("button, [tabindex='0'], select, input:not([tabindex='-1'])");
+					this.toggleDialog(false);
+
+					this.toggle.addEventListener("click", this.toggleDialog.bind(this));
+
+					this.controls = this.querySelector("custom-dialog > div");
+					this.controls.hidden = false;
+
+					this.options = this.querySelector("checkbox-list, multi-select, list-box");
+					customElements.whenDefined(this.options.localName).then(() => {
+						let nrSelected = this.options.selectedOptions.length;
+
+						this.toggle.querySelector(".nr-selected .nr").textContent = nrSelected;
+						if (this.reset) {
+							this.reset.addEventListener("click", this.options.deselectAll.bind(this.options));
+						}
+					});
+
+					this.addEventListener("selection", ({ detail }) => {
+						this.toggle.querySelector(".nr-selected .nr").textContent = detail.length;
+					});
+
+					this.close.addEventListener("click", this.closeDialog.bind(this));
+
+					this.addEventListener("keydown", ev => {
+						// TAB KEY
+						if (ev.keyCode === 9) {
+							// Backwards Tab
+							if (ev.shiftKey) {
+								if (document.activeElement === this.focussableElements[0]) {
+									ev.preventDefault();
+									this.focussableElements[this.focussableElements.length - 1].focus();
+								}
+							}
+
+							// Forward Tab
+							if (!ev.shiftKey) {
+								if (document.activeElement === this.focussableElements[this.focussableElements.length - 1]) {
+									ev.preventDefault();
+									this.focussableElements[0].focus();
+								}
+							}
+						}
+
+						// ESC KEY
+						if (ev.keyCode === 27) {
+							this.closeDialog();
+						}
+					});
+
+					document.addEventListener("click", ev => {
+						if (!(this.contains(ev.target) || this.toggle.contains(ev.target))) {
+							this.closeDialog(false);
+						}
+					});
+				}
+
+				toggleDialog(focusToggle = true) {
+					if (this.hidden) {
+						this.toggle.setAttribute("aria-expanded", "true");
+						this.hidden = false;
+						this.focussableElements[0].focus();
+					} else {
+						this.closeDialog(focusToggle);
+					}
+				}
+
+				closeDialog(focusToggle = true) {
+					this.toggle.setAttribute("aria-expanded", "false");
+					this.hidden = true;
+
+					if (focusToggle) {
+						this.toggle.focus();
+					}
+				}
+
+				get reset() {
+					return this.querySelector("button[name=reset-all]");
+				}
+
+				get close() {
+					return this.querySelector("button[name=close]");
+				}
+			}
+			class CheckboxList extends HTMLElement {
+				connectedCallback() {
+					this.querySelector("label[hidden]").hidden = false;
+					this.allToggle = this.querySelector("input[hidden]");
+					this.allToggle.hidden = false;
+
+					this.allToggle.addEventListener("change", () => {
+						let hasUnselected = this.querySelector("input[type=checkbox][name]:not(:checked)");
+						if (hasUnselected) {
+							this.selectAll();
+						} else {
+							this.deselectAll();
+						}
+					});
+
+					this.querySelectorAll("input[type=checkbox][name]")
+						.forEach(checkbox => {
+							checkbox.addEventListener("change", () => this.dispatchSelectionEvent());
+						});
+				}
+
+				selectAll() {
+					this.querySelectorAll("input[type=checkbox]")
+						.forEach(checkbox => checkbox.checked = true);
+					this.dispatchSelectionEvent();
+				}
+
+				deselectAll() {
+					this.querySelectorAll("input[type=checkbox]")
+						.forEach(checkbox => checkbox.checked = false);
+					this.dispatchSelectionEvent();
+				}
+
+				get selectedOptions() {
+					return this.querySelectorAll("input[type=checkbox][name]:checked");
+				}
+
+				dispatchSelectionEvent() {
+					this.dispatchEvent(new CustomEvent("selection", { detail: this.selectedOptions, bubbles: true }));
+				}
+			}
+			class MultiSelect extends HTMLElement {
+				connectedCallback() {
+					this.allToggle = this.querySelector("button");
+					this.allToggle.hidden = false;
+
+					this.allToggle.addEventListener("click", this.selectAll.bind(this));
+
+					this.addEventListener("change", this.dispatchSelectionEvent.bind(this));
+				}
+
+				selectAll() {
+					this.querySelectorAll("option:not([value='all'])")
+						.forEach(option => option.selected = true);
+					this.dispatchSelectionEvent();
+				}
+
+				deselectAll() {
+					this.querySelectorAll("option:not([value='all'])")
+						.forEach(option => option.selected = false);
+					this.dispatchSelectionEvent();
+				}
+
+				get selectedOptions() {
+					return this.querySelectorAll("option:not([value='all']):checked");
+				}
+
+				dispatchSelectionEvent() {
+					this.dispatchEvent(new CustomEvent("selection", { detail: this.selectedOptions, bubbles: true }));
+				}
+			}
+
+			customElements.define("custom-dialog", Dialog);
+			customElements.define("checkbox-list", CheckboxList);
+			customElements.define("multi-select", MultiSelect);
+		</script>
+  </body>
+</html>
