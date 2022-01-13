@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Multi-select in Dialog</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-      content="How to manage a multi-select element within a dialog popup">
-    <link href="joy.css" rel="stylesheet">
-  </head>
-  <body>
-    <a href="/">List of all Examples</a>
+	<head>
+		<title>Multi-select options within a dialog Popup</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="How to manage a multi-select element within a dialog popup">
+		<link href="joy.css" rel="stylesheet">
+	</head>
+	<body>
+		<a href="/">List of all Examples</a>
 
-    <h1>Multi-select options within a dialog Popup</h1>
+		<h1>Multi-select options within a dialog Popup</h1>
 
-    <nav aria-labelledby="toc-label">
-      <span id="toc-label" aria-hidden="true">Table of Contents</span>
-      <ul>
-        <li><a href="#checkbox-list">A list of checkboxes</a></li>
-        <li><a href="#multi-select">A select element with multiple attribute</a></li>
+		<nav aria-labelledby="toc-label">
+			<span id="toc-label" aria-hidden="true">Table of Contents</span>
+			<ul>
+				<li><a href="#checkbox-list">A list of checkboxes</a></li>
+				<li><a href="#multi-select">A select element with multiple attribute</a></li>
 				<li><a href="#custom-listbox">A custom listbox element with attribute aria-multiselectable</a></li>
-      </ul>
-    </nav>
+			</ul>
+		</nav>
 
 		<p>
 			In certain contexts, we want to create a component to allow the user to
@@ -35,27 +35,27 @@
 			should work the same for each option.
 		</p>
 
-    <section>
-      <h2 id="checkbox-list">A list of checkboxes</h2>
+		<section>
+			<h2 id="checkbox-list">A list of checkboxes</h2>
 
-      <p>
-        In this example, we use a list of checkboxes within a group in order
+			<p>
+				In this example, we use a list of checkboxes within a group in order
 				to allow the user to select multiple options.
-      </p>
+			</p>
 
-			<button hidden aria-haspopup="dialog" aria-controls="checkbox-dialog" aria-label="Select multiple fruits">
-				Fruit <span class="nr-selected"><span class="nr"></span><span class="visually-hidden">selected</span></span>
+			<button hidden aria-haspopup="dialog" aria-controls="checkbox-dialog">
+				Select Multiple Fruits <span class="nr-selected"><span class="nr"></span><span class="visually-hidden">selected</span></span>
 			</button>
 			<custom-dialog id="checkbox-dialog">
 				<checkbox-list>
 					<fieldset>
 						<legend>Fruit</legend>
-						<label for="all" hidden>Select All</label><input type="checkbox" hidden>
-						<label for="apple">Apple</label><input id="apple" type="checkbox" name="fruit" value="apple">
-						<label for="banana">Banana</label><input id="banana" type="checkbox" name="fruit" value="banana">
-						<label for="cherry">Cherry</label><input id="cherry" type="checkbox" name="fruit" value="cherry">
-						<label for="peach">Peach</label><input id="peach" type="checkbox" name="fruit" value="peach">
-						<label for="pear">Pear</label><input id="pear" type="checkbox" name="fruit" value="pear">
+						<label hidden>Select All <input type="checkbox"></label>
+						<label>Apple <input type="checkbox" name="fruit" value="apple"></label>
+						<label>Banana <input type="checkbox" name="fruit" value="banana"></label>
+						<label>Cherry <input type="checkbox" name="fruit" value="cherry"></label>
+						<label>Peach <input type="checkbox" name="fruit" value="peach"></label>
+						<label>Pear <input id="pear" type="checkbox" name="fruit" value="pear"></label>
 					</fieldset>
 				</checkbox-list>
 				<div hidden>
@@ -65,22 +65,22 @@
 			</custom-dialog>
 		</section>
 		<section>
-      <h2 id="multi-select">A select element with multiple attribute</h2>
+			<h2 id="multi-select">A select element with multiple attribute</h2>
 
-      <p>
+			<p>
 				In this example, we use a select element with the multiple attribute in
 				order to allow the user to select multiple options. Here there are some
 				concerns about usability: some users may not realize that they need to
 				use the Shift key on the keyboard in order to select multiple options.
-      </p>
+			</p>
 
-			<button hidden aria-haspopup="dialog" aria-controls="multi-select" aria-label="Select multiple fruits">
-				Fruit <span class="nr-selected"><span class="nr"></span><span class="visually-hidden">selected</span></span>
+			<button hidden aria-haspopup="dialog" aria-controls="multi-select">
+				Select Multiple Fruits <span class="nr-selected"><span class="nr"></span><span class="visually-hidden">selected</span></span>
 			</button>
 			<custom-dialog id="multi-select">
 				<multi-select>
 					<button type="button" hidden>Select All</button>
-					<label for="multi-select-input">Select Fruit</label>
+					<label for="multi-select-input">Select Multiple Fruits</label>
 					<select id="multi-select-input" multiple>
 						<option value="all" hidden>All</option>
 						<option>Apple</option>
@@ -95,18 +95,66 @@
 					<button type="button" name="close">Close</button>
 				</div>
 			</custom-dialog>
-    </section>
+		</section>
 		<section>
-      <h2 id="custom-listbox">A custom listbox element with attribute aria-multiselectable</h2>
+			<h2 id="custom-listbox">A custom listbox element with attribute aria-multiselectable</h2>
 
-      <p>
+			<p>
 				In this example, we use a custom listbox element with the attribute aria-multiselectable
 				in order to allow the user to select multiple options.
-      </p>
+				This implementation uses the
+				<a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/listbox_role#keyboard_interactions">
+					selection model recommended by MDN for multiple selection
+				</a>,
+				which means that the user can iterate through the options with Arrow Up and Arrow Down
+				and change the selection state of an item by pressing Space.
+				Navigation with the Home and End key to navigate to the first and last option,
+				respectively, are also supported.
+				Additional selection options with the modifier keys Shift and Control are not supported.
+			</p>
 
-			<p>Coming Soon!</p>
-    </section>
+			<button hidden aria-haspopup="dialog" aria-controls="multiselect-listbox">
+				Select Multiple Fruits <span class="nr-selected"><span class="nr"></span><span class="visually-hidden">selected</span></span>
+			</button>
+			<custom-dialog id="multiselect-listbox">
+				<multiselect-listbox aria-label="Select multiple Fruits">
+					<fieldset>
+						<legend>Fruit</legend>
+						<label hidden id="listbox-all">Select All <input type="checkbox"></label>
+						<label id="listbox-apple">Apple <input type="checkbox" name="fruit" value="apple"></label>
+						<label id="listbox-banana">Banana <input type="checkbox" name="fruit" value="banana"></label>
+						<label id="listbox-cherry">Cherry <input type="checkbox" name="fruit" value="cherry"></label>
+						<label id="listbox-peach">Peach <input type="checkbox" name="fruit" value="peach"></label>
+						<label id="listbox-pear">Pear <input id="pear" type="checkbox" name="fruit" value="pear"></label>
+					</fieldset>
+				</multiselect-listbox>
+				<div hidden>
+					<button type="button" name="reset-all">Reset All</button>
+					<button type="button" name="close">Close</button>
+				</div>
+			</custom-dialog>
+		</section>
 		<style>
+			fieldset {
+				display: flex;
+				flex-direction: column;
+				max-width: max-content;
+			}
+
+			fieldset label {
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+			}
+
+			[role=option]:hover {
+				background-color: lightblue;
+			}
+
+			[role=option].current {
+				background-color: lightskyblue;
+			}
+
 			multi-select,
 			multi-select label {
 				display: block;
@@ -118,7 +166,6 @@
 					this.toggle = document.querySelector(`[aria-controls="${this.id}"]`);
 					this.toggle.hidden = false;
 
-					this.focussableElements = this.querySelectorAll("button, [tabindex='0'], select, input:not([tabindex='-1'])");
 					this.toggleDialog(false);
 
 					this.toggle.addEventListener("click", this.toggleDialog.bind(this));
@@ -126,7 +173,7 @@
 					this.controls = this.querySelector("custom-dialog > div");
 					this.controls.hidden = false;
 
-					this.options = this.querySelector("checkbox-list, multi-select, list-box");
+					this.options = this.querySelector("checkbox-list, multi-select, multiselect-listbox");
 					customElements.whenDefined(this.options.localName).then(() => {
 						let nrSelected = this.options.selectedOptions.length;
 
@@ -201,11 +248,15 @@
 				get close() {
 					return this.querySelector("button[name=close]");
 				}
+
+				get focussableElements() {
+					return this.querySelectorAll("button, [tabindex='0'], select, input:not([tabindex='-1'])");
+				}
 			}
 			class CheckboxList extends HTMLElement {
 				connectedCallback() {
 					this.querySelector("label[hidden]").hidden = false;
-					this.allToggle = this.querySelector("input[hidden]");
+					this.allToggle = this.querySelector("input:first-child");
 					this.allToggle.hidden = false;
 
 					this.allToggle.addEventListener("change", () => {
@@ -273,10 +324,169 @@
 					this.dispatchEvent(new CustomEvent("selection", { detail: this.selectedOptions, bubbles: true }));
 				}
 			}
+			class MultiselectListbox extends HTMLElement {
+				connectedCallback() {
+					this.setAttribute("aria-multiselectable", "true");
+					this.setAttribute("role", "listbox");
+					this.setAttribute("tabindex", "0");
+
+					this.querySelector("fieldset").setAttribute("role", "presentation");
+					this.querySelector("legend").hidden = true;
+
+					this.selectAllToggle = this.querySelector("label[hidden]");
+					this.selectAllToggle.hidden = false;
+					this.selectAllToggle.querySelector("input")
+						.addEventListener("change", this.toggleAll.bind(this));
+
+					this.options = [].slice.call(this.querySelectorAll("label"));
+
+					this.options.forEach(option => {
+						option.setAttribute("role", "option");
+
+						let checkbox = option.querySelector("input[type=checkbox]");
+						checkbox.setAttribute("role", "presentation");
+						checkbox.setAttribute("tabindex", "-1");
+
+						option.setAttribute("aria-selected", checkbox.checked);
+
+						checkbox.addEventListener("change", () => {
+							option.setAttribute("aria-selected", checkbox.checked);
+							this.moveVisualFocus(option);
+							this.dispatchSelectionEvent();
+						});
+					});
+
+					this.addEventListener("keydown", ev => {
+						let key = ev.keyCode;
+						let option = this.querySelector(".current");
+
+						if (!option) {
+							return;
+						}
+
+						// SPACE
+						if (key === 32) {
+							ev.preventDefault();
+							if (option === this.selectAllToggle) {
+								this.toggleAll();
+							} else {
+								this.toggleOption(option);
+							}
+						}
+
+						let currentIndex = this.options.indexOf(option);
+
+						// UP ARROW or LEFT ARROW
+						if ((key === 38 || key === 37) && currentIndex > 0) {
+							ev.preventDefault();
+							this.moveVisualFocus(this.options[currentIndex - 1]);
+						}
+
+						// DOWN ARROW or RIGHT ARROW
+						if ((key === 40 || key === 39) && currentIndex < this.options.length - 1) {
+							ev.preventDefault();
+							this.moveVisualFocus(this.options[currentIndex + 1]);
+						}
+
+						// HOME KEY
+						if (key === 36) {
+							ev.preventDefault();
+							this.moveVisualFocus(this.options[0]);
+						}
+
+						// END KEY
+						if (key === 35) {
+							ev.preventDefault();
+							this.moveVisualFocus(this.options[this.options.length - 1]);
+						}
+					});
+
+					/*
+					Necessary for Assistive Technologies which directly modify the
+					`aria-selected` attribute in the DOM. When this occurs, we need to
+					also select our checkbox so that it matches the `aria-selected`
+					value.
+					*/
+					let mutationObserver = new MutationObserver((mutationsList) => {
+						mutationsList.forEach(mutation => {
+							if (mutation.attributeName === "aria-selected") {
+								let option = mutation.target;
+								let checkbox = option.querySelector("input[type=checkbox]");
+
+								checkbox.checked = option.getAttribute("aria-selected") === "true";
+							}
+						});
+					});
+					mutationObserver.observe(this, { attributes: true, childList: true, subtree: true });
+
+					this.moveVisualFocus(this.querySelector("[aria-selected=true]") || this.options[0]);
+				}
+
+				moveVisualFocus(option) {
+					let current = this.querySelector(".current");
+					if (current) {
+						current.classList.remove("current");
+					}
+					option.classList.add("current");
+					this.setAttribute("aria-activedescendant", option.id);
+				}
+
+				toggleAll() {
+					let hasUnselected = this.querySelector("input[type=checkbox][name]:not(:checked)");
+					if (hasUnselected) {
+						this.selectAll();
+					} else {
+						this.deselectAll();
+					}
+				}
+
+				selectAll() {
+					this.options.forEach(option => {
+						let checkbox = option.querySelector("input[type=checkbox]");
+						checkbox.checked = true;
+						option.setAttribute("aria-selected", true);
+					});
+
+					this.moveVisualFocus(this.options[0]);
+					this.dispatchSelectionEvent();
+				}
+
+				deselectAll() {
+					this.options.forEach(option => {
+						let checkbox = option.querySelector("input[type=checkbox]");
+						checkbox.checked = false;
+						option.setAttribute("aria-selected", false);
+					});
+
+					this.moveVisualFocus(this.options[0]);
+					this.dispatchSelectionEvent();
+				}
+
+				toggleOption(option) {
+					let checkbox = option.querySelector("input[type=checkbox]");
+					if (checkbox.checked) {
+						option.setAttribute("aria-selected", false);
+						checkbox.checked = false;
+					} else {
+						option.setAttribute("aria-selected", true);
+						checkbox.checked = true;
+					}
+					this.dispatchSelectionEvent();
+				}
+
+				get selectedOptions() {
+					return this.querySelectorAll("input[type=checkbox][name]:checked");
+				}
+
+				dispatchSelectionEvent() {
+					this.dispatchEvent(new CustomEvent("selection", { detail: this.selectedOptions, bubbles: true }));
+				}
+			}
 
 			customElements.define("custom-dialog", Dialog);
 			customElements.define("checkbox-list", CheckboxList);
 			customElements.define("multi-select", MultiSelect);
+			customElements.define("multiselect-listbox", MultiselectListbox);
 		</script>
-  </body>
+	</body>
 </html>
