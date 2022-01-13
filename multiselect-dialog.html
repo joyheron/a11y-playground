@@ -35,12 +35,30 @@
 			should work the same for each option.
 		</p>
 
+		<p>
+			<strong>The <a href="#checkbox-list">list of checkboxes</a> is the best option!</strong>
+		</p>
+
+		<p>
+			Both the <a href="#multi-select">built-in select with the multiple attribute</a> and
+			<a href="custom-listbox">a custom listbox with the aria-mulitselectable attribute</a>
+			are difficult (or impossible) to use for assistive technologies.
+		</p>
+
 		<section>
 			<h2 id="checkbox-list">A list of checkboxes</h2>
 
 			<p>
 				In this example, we use a list of checkboxes within a group in order
 				to allow the user to select multiple options.
+			</p>
+
+			<p>
+				<strong>Note:</strong> this example also
+				explicitly adds a tabindex to the fieldset element so that it is the first
+				element that is focused when the dialog is opened. This means that the contents
+				of the list of checkboxes with all the options can be read out with assistive
+				technologies.
 			</p>
 
 			<button hidden aria-haspopup="dialog" aria-controls="checkbox-dialog">
@@ -73,6 +91,13 @@
 				order to allow the user to select multiple options. Here there are some
 				concerns about usability: some users may not realize that they need to
 				use the Shift key on the keyboard in order to select multiple options.
+			</p>
+
+			<p>
+				<strong>Note:</strong> Using a list of checkboxes is preferable, because
+				although assistive technologies may correctly read out the contents of a
+				select with the multiple attribute, it may be difficult/impossible to
+				actually select the elements within the list.
 			</p>
 
 			<button hidden aria-haspopup="dialog" aria-controls="multi-select">
@@ -112,6 +137,13 @@
 				Navigation with the Home and End key to navigate to the first and last option,
 				respectively, are also supported.
 				Additional selection options with the modifier keys Shift and Control are not supported.
+			</p>
+
+			<p>
+				<strong>Note:</strong> Using a list of checkboxes is preferable, because
+				although this custom Listbox implementation is keyboard accessible, it is
+				not easy to use in either NVDA or VoiceOver (and possibly in other assistive
+				technologies as well).
 			</p>
 
 			<button hidden aria-haspopup="dialog" aria-controls="multiselect-listbox">
