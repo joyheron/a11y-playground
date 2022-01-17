@@ -1,94 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Show More Pagination</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-      content="Collapsing and Expanding Content">
-    <link href="joy.css" rel="stylesheet">
-    <style>
-      .hide {
-        display: none;
-      }
-      sr-hint, .sr-only {
-        clip: rect(1px, 1px, 1px, 1px);
-        clip-path: inset(50%);
-        height: 1px;
-        width: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-      }
-    </style>
-  </head>
-  <body>
-    <a href="/">List of all Examples</a>
+	<head>
+		<title>Show More Pagination</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="Collapsing and Expanding Content">
+		<link href="joy.css" rel="stylesheet">
+		<style>
+			.hide {
+				display: none;
+			}
+			sr-hint, .sr-only {
+				clip: rect(1px, 1px, 1px, 1px);
+				clip-path: inset(50%);
+				height: 1px;
+				width: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<a href="..">List of all Examples</a>
 
-    <h1>Collapsing and Expanding Content</h1>
+		<h1>Collapsing and Expanding Content</h1>
 
-    This is an example to test a toggle which will collapse and expand its content.
+		This is an example to test a toggle which will collapse and expand its content.
 
-    <h2>A section expanded by default</h2>
-    <button is="toggle-button" aria-expanded="true" data-target="#section1" hidden>Toggle Section 1</button>
-    <section id="section1">
-      <p>This section would have some content which can be hidden from the screenreader.</p>
-    </section>
+		<h2>A section expanded by default</h2>
+		<button is="toggle-button" aria-expanded="true" data-target="#section1" hidden>Toggle Section 1</button>
+		<section id="section1">
+			<p>This section would have some content which can be hidden from the screenreader.</p>
+		</section>
 
-    <h2>A section collapsed by default</h2>
-    <button is="toggle-button" data-target="#section2" hidden>Toggle Section 2</button>
-    <section id="section2">
-      <p>This section would have some content which can be hidden from the screenreader.</p>
-    </section>
+		<h2>A section collapsed by default</h2>
+		<button is="toggle-button" data-target="#section2" hidden>Toggle Section 2</button>
+		<section id="section2">
+			<p>This section would have some content which can be hidden from the screenreader.</p>
+		</section>
 
 
-    <h2>Use the built-in details element (by default open)</h2>
-    <details open>
-      <summary>A built-in HTML</summary>
-      <p>Some content that can be hidden from the screenreader.</p>
-    </details>
+		<h2>Use the built-in details element (by default open)</h2>
+		<details open>
+			<summary>A built-in HTML</summary>
+			<p>Some content that can be hidden from the screenreader.</p>
+		</details>
 
-    <h2>Use the built-in details element</h2>
-    <details>
-      <summary>A built-in HTML</summary>
-      <p>Some content that can be hidden from the screenreader.</p>
-    </details>
+		<h2>Use the built-in details element</h2>
+		<details>
+			<summary>A built-in HTML</summary>
+			<p>Some content that can be hidden from the screenreader.</p>
+		</details>
 
-    <script>
-      if(this.customElements)
-        try{customElements.define('built-in',document.createElement('p').constructor,{'extends':'p'})}
-        catch(s){document.write('<script src="//unpkg.com/@ungap/custom-elements-builtin"><\x2fscript>')}
-      else
-        document.write('<script src="//unpkg.com/document-register-element"><\x2fscript>');
-    </script>
-    <script>
-      class ToggleButton extends HTMLButtonElement {
-        connectedCallback () {
-          this.removeAttribute("hidden");
-          if (this.getAttribute("aria-expanded") !== "true") {
-            this.setAttribute("aria-expanded", "false");
-            this.target.classList.add("hide");
-          }
-          this.addEventListener("click", this.toggle.bind(this));
-        }
+		<script>
+			if(this.customElements)
+				try{customElements.define('built-in',document.createElement('p').constructor,{'extends':'p'})}
+				catch(s){document.write('<script src="//unpkg.com/@ungap/custom-elements-builtin"><\x2fscript>')}
+			else
+				document.write('<script src="//unpkg.com/document-register-element"><\x2fscript>');
+		</script>
+		<script>
+			class ToggleButton extends HTMLButtonElement {
+				connectedCallback () {
+					this.removeAttribute("hidden");
+					if (this.getAttribute("aria-expanded") !== "true") {
+						this.setAttribute("aria-expanded", "false");
+						this.target.classList.add("hide");
+					}
+					this.addEventListener("click", this.toggle.bind(this));
+				}
 
-        toggle () {
-          let classList = this.target.classList;
-          if (classList.contains("hide")) {
-            classList.remove("hide");
-            this.setAttribute("aria-expanded", "true");
-          } else {
-            classList.add("hide");
-            this.setAttribute("aria-expanded", "false");
-          }
-        }
+				toggle () {
+					let classList = this.target.classList;
+					if (classList.contains("hide")) {
+						classList.remove("hide");
+						this.setAttribute("aria-expanded", "true");
+					} else {
+						classList.add("hide");
+						this.setAttribute("aria-expanded", "false");
+					}
+				}
 
-        get target () {
-          return document.querySelector(this.getAttribute("data-target"))
-        }
-      }
-      customElements.define("toggle-button", ToggleButton, { extends: "button" });
-    </script>
-  </body>
+				get target () {
+					return document.querySelector(this.getAttribute("data-target"))
+				}
+			}
+			customElements.define("toggle-button", ToggleButton, { extends: "button" });
+		</script>
+	</body>
 </html>

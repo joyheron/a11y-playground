@@ -1,110 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Show More Pagination</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-      content="How to create show more pagination">
-    <link href="joy.css" rel="stylesheet">
-    <style>
-      sr-hint, .sr-only {
-        clip: rect(1px, 1px, 1px, 1px);
-        clip-path: inset(50%);
-        height: 1px;
-        width: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-      }
-    </style>
-  </head>
-  <body>
-    <a href="/">List of all Examples</a>
+	<head>
+		<title>Show More Pagination</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="How to create show more pagination">
+		<link href="joy.css" rel="stylesheet">
+		<style>
+			sr-hint, .sr-only {
+				clip: rect(1px, 1px, 1px, 1px);
+				clip-path: inset(50%);
+				height: 1px;
+				width: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<a href="..">List of all Examples</a>
 
-    <h1>Show More Pagination</h1>
+		<h1>Show More Pagination</h1>
 
-    This is an example to test a component which paginates with a 'Show More' button.
-    We want to test it to make sure that the pagination works in connection with a screen reader.
-    The idea is to focus the reader on the next new item when the "Show More" button is clicked.
-    To do so, it is necessary to set the <code>tabindex</code> on the elements to make them focussable.
+		This is an example to test a component which paginates with a 'Show More' button.
+		We want to test it to make sure that the pagination works in connection with a screen reader.
+		The idea is to focus the reader on the next new item when the "Show More" button is clicked.
+		To do so, it is necessary to set the <code>tabindex</code> on the elements to make them focussable.
 
-    <div id="list-beginning"><span class="sr-only">Element List</span></div>
-    <ul id="list">
-      <li>Element 1</li>
-      <li>Element 2</li>
-      <li>Element 3</li>
-      <li>Element 4</li>
-    </ul>
-    <button is="show-more-btn" data-list="#list">Show More</button>
-    <a href="#list-beginning">Back to beginning of list</a>
+		<div id="list-beginning"><span class="sr-only">Element List</span></div>
+		<ul id="list">
+			<li>Element 1</li>
+			<li>Element 2</li>
+			<li>Element 3</li>
+			<li>Element 4</li>
+		</ul>
+		<button is="show-more-btn" data-list="#list">Show More</button>
+		<a href="#list-beginning">Back to beginning of list</a>
 
-    <script>
-      if(this.customElements)
-        try{customElements.define('built-in',document.createElement('p').constructor,{'extends':'p'})}
-        catch(s){document.write('<script src="//unpkg.com/@ungap/custom-elements-builtin"><\x2fscript>')}
-      else
-        document.write('<script src="//unpkg.com/document-register-element"><\x2fscript>');
-    </script>
-    <script>
-      function html2dom(html) {
-        let tmp = document.createElement("html");
-        tmp.innerHTML = html;
+		<script>
+			if(this.customElements)
+				try{customElements.define('built-in',document.createElement('p').constructor,{'extends':'p'})}
+				catch(s){document.write('<script src="//unpkg.com/@ungap/custom-elements-builtin"><\x2fscript>')}
+			else
+				document.write('<script src="//unpkg.com/document-register-element"><\x2fscript>');
+		</script>
+		<script>
+			function html2dom(html) {
+				let tmp = document.createElement("html");
+				tmp.innerHTML = html;
 
-        let root = document.createDocumentFragment(); // allows for DOM queries
-        [].slice.call(tmp.childNodes).forEach(node => {
-          root.appendChild(node);
-        });
-        return root;
-      }
+				let root = document.createDocumentFragment(); // allows for DOM queries
+				[].slice.call(tmp.childNodes).forEach(node => {
+					root.appendChild(node);
+				});
+				return root;
+			}
 
-      class ShowMorePagination extends HTMLButtonElement {
-        connectedCallback() {
-          this.counter = 5;
-          this.addEventListener("click", ev => {
-            ev.preventDefault();
-            this.setAttribute("aria-pressed", "true");
-            this.paginate();
-          });
-        }
+			class ShowMorePagination extends HTMLButtonElement {
+				connectedCallback() {
+					this.counter = 5;
+					this.addEventListener("click", ev => {
+						ev.preventDefault();
+						this.setAttribute("aria-pressed", "true");
+						this.paginate();
+					});
+				}
 
-        paginate () {
-          var newUl = html2dom(`<ul>${this.dummyHtmlContent()}</ul>`);
-          var lis = [].slice.call(newUl.querySelectorAll("li"));
+				paginate () {
+					var newUl = html2dom(`<ul>${this.dummyHtmlContent()}</ul>`);
+					var lis = [].slice.call(newUl.querySelectorAll("li"));
 
-          var firstLi = lis[0];
-          var list = this.list
-          lis.forEach(li => {
-            list.appendChild(li);
-          })
-          firstLi.setAttribute("tabindex", "-1");
-          firstLi.insertBefore(this.srHint(), firstLi.firstChild);
+					var firstLi = lis[0];
+					var list = this.list
+					lis.forEach(li => {
+						list.appendChild(li);
+					})
+					firstLi.setAttribute("tabindex", "-1");
+					firstLi.insertBefore(this.srHint(), firstLi.firstChild);
 
-          firstLi.focus();
+					firstLi.focus();
 
-          this.setAttribute("aria-pressed", "false");
-        }
+					this.setAttribute("aria-pressed", "false");
+				}
 
-        dummyHtmlContent () {
-          return [0,1,2,3]
-            .map(el => {
-              var ctr = this.counter++
-              return `<li>Element ${ctr}</li>`
-            })
-            .join("");
-        }
+				dummyHtmlContent () {
+					return [0,1,2,3]
+						.map(el => {
+							var ctr = this.counter++
+							return `<li>Element ${ctr}</li>`
+						})
+						.join("");
+				}
 
-        srHint () {
-          let hint = this.list.querySelector("sr-hint");
-          return hint || html2dom("<sr-hint>First new entry: </sr-hint>").querySelector("sr-hint");
-        }
+				srHint () {
+					let hint = this.list.querySelector("sr-hint");
+					return hint || html2dom("<sr-hint>First new entry: </sr-hint>").querySelector("sr-hint");
+				}
 
-        get list () {
-          return document.querySelector(this.getAttribute("data-list"))
-        }
-      }
-      customElements.define('show-more-btn', ShowMorePagination, { extends: 'button' })
-    </script>
-  </body>
+				get list () {
+					return document.querySelector(this.getAttribute("data-list"))
+				}
+			}
+			customElements.define('show-more-btn', ShowMorePagination, { extends: 'button' })
+		</script>
+	</body>
 </html>

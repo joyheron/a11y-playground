@@ -1,102 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Representing Labelled Information</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-      content="Semantic HTML to represent labelled information">
-    <link href="joy.css" rel="stylesheet">
-  </head>
-  <body>
-    <a href="/">List of all Examples</a>
+	<head>
+		<title>Representing Labelled Information</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="Semantic HTML to represent labelled information">
+		<link href="joy.css" rel="stylesheet">
+	</head>
+	<body>
+		<a href="..">List of all Examples</a>
 
-    <h1>Representing Labelled Information</h1>
+		<h1>Representing Labelled Information</h1>
 
-    <nav aria-labelledby="toc-label">
-      <span id="toc-label" aria-hidden="true">Table of Contents</span>
-      <ul>
-        <li><a href="#description-list">Description List</a></li>
-        <li><a href="#unordered-list">An unordered list</a></li>
-        <li><a href="#no-list-at-all">No list at all (group)</a></li>
-      </ul>
-    </nav>
+		<nav aria-labelledby="toc-label">
+			<span id="toc-label" aria-hidden="true">Table of Contents</span>
+			<ul>
+				<li><a href="#description-list">Description List</a></li>
+				<li><a href="#unordered-list">An unordered list</a></li>
+				<li><a href="#no-list-at-all">No list at all (group)</a></li>
+			</ul>
+		</nav>
 
-    Here I am testing out different ways to displayed labelled information.
-    The main issue that I need to solve here is to make sure that any label is
-    clearly associated with its value and ideally the other way around as well.
+		Here I am testing out different ways to displayed labelled information.
+		The main issue that I need to solve here is to make sure that any label is
+		clearly associated with its value and ideally the other way around as well.
 
-    <section>
-      <h2 id="description-list">Description List</h2>
+		<section>
+			<h2 id="description-list">Description List</h2>
 
-      <p>
-        A description list seems like the HTML structure which you would automatically reach
-        for when implementing this use case, because its intention is list out a term followed
-        by the definition which is associated with it.
-      </p>
+			<p>
+				A description list seems like the HTML structure which you would automatically reach
+				for when implementing this use case, because its intention is list out a term followed
+				by the definition which is associated with it.
+			</p>
 
-      <p>
-        However, the description list's HTML structure is sometimes not ideal,
-        because we are not allowed to add any elements around the <code>dt</code> and <code>dd</code> tags
-        in the HTML.
-        This limits the amount of visual style that is possible with CSS
-        (e.g. it isn't possible to easily show the label / value pairs next to each other in the UI),
-        so it isn't ideal for all circumstances.
-      </p>
+			<p>
+				However, the description list's HTML structure is sometimes not ideal,
+				because we are not allowed to add any elements around the <code>dt</code> and <code>dd</code> tags
+				in the HTML.
+				This limits the amount of visual style that is possible with CSS
+				(e.g. it isn't possible to easily show the label / value pairs next to each other in the UI),
+				so it isn't ideal for all circumstances.
+			</p>
 
-      <dl>
-        <dt>Discount</dt>
-        <dd>9%</dd>
-        <dt>Price</dt>
-        <dd>$14.00</dd>
-      </dl>
-    </section>
-    <section>
-      <h2 id="unordered-list">An unordered list</h2>
+			<dl>
+				<dt>Discount</dt>
+				<dd>9%</dd>
+				<dt>Price</dt>
+				<dd>$14.00</dd>
+			</dl>
+		</section>
+		<section>
+			<h2 id="unordered-list">An unordered list</h2>
 
-      <p>
-        This attempts to rectify the shortcomings of the definition list by inserting the label and value
-        pairs as a single list entry.
-      </p>
+			<p>
+				This attempts to rectify the shortcomings of the definition list by inserting the label and value
+				pairs as a single list entry.
+			</p>
 
-      <p>
-        However, this only groups them together in the UI within a list, but doesn't actually semantically
-        link the label with its value.
-        Also, it would be easy to argue that the list context in this example is superfluous,
-        since the labelled information here isn't really a list.
-      </p>
+			<p>
+				However, this only groups them together in the UI within a list, but doesn't actually semantically
+				link the label with its value.
+				Also, it would be easy to argue that the list context in this example is superfluous,
+				since the labelled information here isn't really a list.
+			</p>
 
-      <ul>
-        <li>Discount: 9%</li>
-        <li>Price: $14.00</li>
-      </ul>
-    </section>
-    <section>
-      <h2 id="no-list-at-all">No list at all (group)</h2>
+			<ul>
+				<li>Discount: 9%</li>
+				<li>Price: $14.00</li>
+			</ul>
+		</section>
+		<section>
+			<h2 id="no-list-at-all">No list at all (group)</h2>
 
-      <p>
-        This uses the <code>group</code> attribute to group related information together.
-        I like this method because it semantically identifies the label and its value.
-      </p>
+			<p>
+				This uses the <code>group</code> attribute to group related information together.
+				I like this method because it semantically identifies the label and its value.
+			</p>
 
-      <p>
-        Here, we are using the <code>aria-labelledby</code> attribute to generate the label
-        for the group and hiding the actual label with the <code>aria-hidden</code> attribute.
-        We can hide the label because its value is already read out by the screenreader.
-        If the group is duplicated on the page (and the label is therefore also duplicated),
-        we need to make sure that we generate a unique id for the label element OR use
-        <code>aria-label</code> instead.
-      </p>
+			<p>
+				Here, we are using the <code>aria-labelledby</code> attribute to generate the label
+				for the group and hiding the actual label with the <code>aria-hidden</code> attribute.
+				We can hide the label because its value is already read out by the screenreader.
+				If the group is duplicated on the page (and the label is therefore also duplicated),
+				we need to make sure that we generate a unique id for the label element OR use
+				<code>aria-label</code> instead.
+			</p>
 
-      <div class="group" aria-labelledby="discountGenUniqueId">
-        <div id="discountGenUniqueId">Discount</div>
-        <div>9%</div>
-      </div>
+			<div class="group" aria-labelledby="discountGenUniqueId">
+				<div id="discountGenUniqueId">Discount</div>
+				<div>9%</div>
+			</div>
 
-      <div class="group" aria-labelledby="priceGenUniqueId">
-        <div id="priceGenUniqueId">Price</div>
-        <div>$14.00</div>
-      </div>
-    </section>
-  </body>
+			<div class="group" aria-labelledby="priceGenUniqueId">
+				<div id="priceGenUniqueId">Price</div>
+				<div>$14.00</div>
+			</div>
+		</section>
+	</body>
 </html>

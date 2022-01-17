@@ -1,91 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Test für Buttons mit einer Beschreibung</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-      content="How to test buttons">
-  </head>
-  <body>
-    <h1>Tests für HTML Buttons in einer Tabelle verschachtelt</h1>
+<html lang="de">
+	<head>
+		<title>Test für Buttons mit einer Beschreibung</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="How to test buttons">
+	</head>
+	<body>
+		<h1>Tests für HTML Buttons in einer Tabelle verschachtelt</h1>
 
-    Hier ist mein nächster Test. Die Beschriftung von dem
+		Hier ist mein nächster Test. Die Beschriftung von dem
 
-    <table role="table">
-      <thead role="rowgroup">
-        <tr role="row">
-          <th scope="col" role="columnheader">
-            HTML Button ohne label
-          </th>
-          <th scope="col" role="columnheader">
-            HTML Button mit aria-describedby
-          </th>
-          <th scope="col" role="columnheader">
-            HTML Button mit aria-labelledby
-          </th>
-        </tr>
-      </thead>
-      <tbody role="rowgroup">
-        <tr role="row">
-          <td role="cell">
-            <slot-description id="slot-1">
-              Raum Monheim um 10 Uhr
-            </slot-description>
-            <button>Schaltfläche ohne Label</button>
-          </td>
-          <td role="cell">
-            <slot-description id="slot-2">
-              Raum Berlin um 10 Uhr
-            </slot-description>
-            <button aria-describedby="slot-2">Schaltfläche mit Zusatzinformation</button>
-          </td>
-          <td role="cell">
-            <slot-description id="slot-2">
-              Raum Frankfurt um 10 Uhr
-            </slot-description>
-            <button aria-labelledby="slot-2">Schaltfläche mit Label</button>
-          </td>
-        </tr>
-        <tr role="row">
-          <td role="cell">
-            <div role="group" aria-labelledby="slot-3">
-              <slot-description id="slot-3">
-                Raum Monheim um 11 Uhr
-              </slot-description>
-              <button>Schaltfläche ohne Label</button>
-            </div>
-          </td>
-          <td role="cell">
-            <div role="group" aria-labelledby="slot-4">
-              <slot-description id="slot-4">
-                Raum Berlin um 10 Uhr
-              </slot-description>
-              <button aria-describedby="slot-4">Schaltfläche mit Zusatzinformation</button>
-            </div>
-          </td>
-          <td role="cell">
-            <div role="group" aria-labelledby="slot-5">
-              <slot-description id="slot-5">
-                Raum Frankfurt um 10 Uhr
-              </slot-description>
-              <button aria-labelledby="slot-5">Schaltfläche mit Label</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div role="region" aria-live="polite"></div>
+		<table role="table">
+			<thead role="rowgroup">
+				<tr role="row">
+					<th scope="col" role="columnheader">
+						HTML Button ohne label
+					</th>
+					<th scope="col" role="columnheader">
+						HTML Button mit aria-describedby
+					</th>
+					<th scope="col" role="columnheader">
+						HTML Button mit aria-labelledby
+					</th>
+				</tr>
+			</thead>
+			<tbody role="rowgroup">
+				<tr role="row">
+					<td role="cell">
+						<slot-description id="slot-1">
+							Raum Monheim um 10 Uhr
+						</slot-description>
+						<button>Schaltfläche ohne Label</button>
+					</td>
+					<td role="cell">
+						<slot-description id="slot-2">
+							Raum Berlin um 10 Uhr
+						</slot-description>
+						<button aria-describedby="slot-2">Schaltfläche mit Zusatzinformation</button>
+					</td>
+					<td role="cell">
+						<slot-description id="slot-2">
+							Raum Frankfurt um 10 Uhr
+						</slot-description>
+						<button aria-labelledby="slot-2">Schaltfläche mit Label</button>
+					</td>
+				</tr>
+				<tr role="row">
+					<td role="cell">
+						<div role="group" aria-labelledby="slot-3">
+							<slot-description id="slot-3">
+								Raum Monheim um 11 Uhr
+							</slot-description>
+							<button>Schaltfläche ohne Label</button>
+						</div>
+					</td>
+					<td role="cell">
+						<div role="group" aria-labelledby="slot-4">
+							<slot-description id="slot-4">
+								Raum Berlin um 10 Uhr
+							</slot-description>
+							<button aria-describedby="slot-4">Schaltfläche mit Zusatzinformation</button>
+						</div>
+					</td>
+					<td role="cell">
+						<div role="group" aria-labelledby="slot-5">
+							<slot-description id="slot-5">
+								Raum Frankfurt um 10 Uhr
+							</slot-description>
+							<button aria-labelledby="slot-5">Schaltfläche mit Label</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div role="region" aria-live="polite"></div>
 
-    <script>
-      var buttons = [].slice.call(document.querySelectorAll('button'));
-      var region = document.querySelector("[role=region]")
-      buttons.forEach(function(button) {
-        button.addEventListener("click", function (el) {
-          var text = el.target.textContent;
-          region.innerHTML = "\"" + text + "\" wurde geclickt"
-        });
-      });
-    </script>
-  </body>
+		<script>
+			var buttons = [].slice.call(document.querySelectorAll('button'));
+			var region = document.querySelector("[role=region]")
+			buttons.forEach(function(button) {
+				button.addEventListener("click", function (el) {
+					var text = el.target.textContent;
+					region.innerHTML = "\"" + text + "\" wurde geclickt"
+				});
+			});
+		</script>
+	</body>
 </html>
