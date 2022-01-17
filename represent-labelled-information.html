@@ -35,15 +35,26 @@
 				by the definition which is associated with it.
 			</p>
 
-			<p>
-				However, the description list's HTML structure is sometimes not ideal,
-				because we are not allowed to add any elements around the <code>dt</code> and <code>dd</code> tags
-				in the HTML.
-				This limits the amount of visual style that is possible with CSS
-				(e.g. it isn't possible to easily show the label / value pairs next to each other in the UI),
-				so it isn't ideal for all circumstances.
-			</p>
-
+			<del datetime="2022-01-17T11:03:00Z">
+				<p>
+					However, the description list's HTML structure is sometimes not ideal,
+					because we are not allowed to add any elements around the <code>dt</code> and <code>dd</code> tags
+					in the HTML.
+					This limits the amount of visual style that is possible with CSS
+					(e.g. it isn't possible to easily show the label / value pairs next to each other in the UI),
+					so it isn't ideal for all circumstances.
+				</p>
+			</del>
+			<ins datetime="2022-01-17T11:03:00Z">
+				<em>Update:</em> Originally, I did not like the HTML structure of the
+				<code>dl</code> because I believed that it was invalid to add HTML
+				elements to group a <code>dt</code> and <code>dd</code> element. However,
+				this is no longer the case for modern browsers which implement the
+				<a href="https://www.w3.org/TR/html52/grouping-content.html#the-dl-element">HTML 5.2 Recommendation</a>
+				because they now allow a <code>div</code> as a wrapper around
+				<code>dt</code> and <code>dd</code> elements. For this reason, this is
+				now probably my preferred method of grouping labelled information.
+			</ins>
 			<dl>
 				<dt>Discount</dt>
 				<dd>9%</dd>
