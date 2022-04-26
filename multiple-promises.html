@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Correctly set aria-busy when dealing with multiple promises</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="aria-busy should only be removed when all requests have resolved">
+		<link href="joy.css" rel="stylesheet">
+	</head>
+	<body>
+		<a href="./index.html">List of all Examples</a>
+
+		<h1>Correctly set <code>aria-busy</code> when dealing with multiple promises</h1>
+		<p>
+			This is a small POC to test how setting <code>aria-busy</code> correctly
+			can work when we are retrieving multiple requests that will all modify
+			the current DOM of the component in question until the point in time
+			where all requests have been resolved. Only at this stage should we
+			remove the <code>aria-busy</code> attribute.
+		</p>
+		<p>
+			This also tests what happens when the execution of the requests overlap
+			with another series of requests. If another series of requests has
+			started, the <code>aria-busy</code> attribute should not be removed
+			until <em>those</em> requests have been resolved, even if the first
+			batch of requests has already been resolved.
+		</p>
+		<p>
+			This button initates two series of requests at the same time to simulate
+			the overlapping asynchronous behavior and to test that the aria-busy
+			attribute is correctly set.
+		</p>
+		<my-element>
+			<button>
+				Perform Requests
+			</button>
+			<ol></ol>
+		</my-element>
+
+		<script>
+			class MyElement extends HTMLElement {
+				connectedCallback() {
+					this.button.addEventListener("click", () => {
+						// Performs the requests multiple times to simulate
+						// overlapping asynchronous behavior.
+						this.performRequests();
+						this.performRequests();
+					});
+				}
+
+				performRequests() {
+					if (this.cancelCompletion) {
+						this.cancelCompletion();
+					}
+
+					this.setAttribute("aria-busy", "true");
+					this.appendToList("Starting retrieval... (aria-busy=true)");
+
+					let requests = this.urls.map(url => fetch(url).then(response => {
+						this.appendToList(`${url} Status: ${response.status}`);
+						return response.text();
+					}));
+
+					let completed = true;
+					this.cancelCompletion = () => completed = false;
+
+					Promise.allSettled(requests).then(() => {
+						if (completed) {
+							this.appendToList("Finished! (aria-busy=false)");
+							this.removeAttribute("aria-busy");
+						} else {
+							this.appendToList("Another series of requests has started (aria-busy=true)");
+						}
+					});
+				}
+
+				appendToList(text) {
+					let ol = this.querySelector("ol");
+					let li = document.createElement("li");
+					li.appendChild(document.createTextNode(text));
+					ol.appendChild(li);
+				}
+
+				get urls() {
+					return [
+						"/list-of-articles.html",
+						"/multiselect-dialog.html",
+						"/represent-labelled-information.html"
+					]
+				}
+
+				get button() {
+					return this.querySelector("button");
+				}
+			}
+
+			customElements.define("my-element", MyElement);
+		</script>
+	</body>
+</html>

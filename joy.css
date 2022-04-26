@@ -12,6 +12,12 @@ body {
 	margin: auto;
 	max-width: 70ch;
 	padding: var(--spacer-sm);
+
+	line-height: 1.75;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.25;
 }
 
 ul {
