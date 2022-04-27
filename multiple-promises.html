@@ -50,27 +50,34 @@
 				}
 
 				performRequests() {
-					if (this.cancelCompletion) {
-						this.cancelCompletion();
+					if (this.abort) {
+						this.abort();
 					}
 
 					this.setAttribute("aria-busy", "true");
 					this.appendToList("Starting retrieval... (aria-busy=true)");
 
+					let aborted = false;
+					this.abort = () => {
+						aborted = true;
+					};
+
 					let requests = this.urls.map(url => fetch(url).then(response => {
-						this.appendToList(`${url} Status: ${response.status}`);
+						if (!aborted) {
+							this.appendToList(`${url} Status: ${response.status}`);
+						} else {
+							this.appendToList(`Requests aborted, ignoring ${response.status} from ${url}`);
+						}
+
 						return response.text();
 					}));
 
-					let completed = true;
-					this.cancelCompletion = () => completed = false;
-
 					Promise.allSettled(requests).then(() => {
-						if (completed) {
+						if (!aborted) {
 							this.appendToList("Finished! (aria-busy=false)");
 							this.removeAttribute("aria-busy");
 						} else {
-							this.appendToList("Another series of requests has started (aria-busy=true)");
+							this.appendToList("Requests aborted, aria-busy unchanged");
 						}
 					});
 				}
