@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Search Results</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="component to show search results">
+		<link href="../joy.css" rel="stylesheet">
+	</head>
+	<body>
+		<nav>
+			<a id="index-link" href="../index.html">List of all Examples</a> / <a href="./index.html">Providing accessible search suggestions</a>
+		</nav>
+
+		<search-results>
+			<h1>Search Results</h1>
+
+			<p>
+				<strong>Note:</strong>
+				This page is intented primarily for test purposes, which is why the
+				search will not work without JavaScript activated on the page.
+				Additionally, the search currently only searches through the links
+				to the articles provided on the <a href="../index.html">home page</a>
+				of this site.
+			</p>
+
+			<form hidden>
+				<label for="search-field">Search</label>
+				<input id="search-field" type="search" name="q">
+				<button type="submit">Search</button>
+			</form>
+
+			<p class="nr-of-results" hidden>
+			</p>
+			<ul>
+			</ul>
+		</search-results>
+
+		<script>
+			function html2dom(html) {
+				let parser = new DOMParser();
+				return parser.parseFromString(html, "text/html").body;
+			}
+
+			// limits the rate of `fn` invocations
+			// `delay` is the rate limit in milliseconds
+			// `ctx` (optional) is the function's execution context (i.e. `this`)
+			// `fn` is the respective function
+			// adapted from StuffJS <https://github.com/bengillies/stuff-js>
+			function debounce(delay, ctx, fn) {
+				if(fn === undefined) { // shift arguments
+					fn = ctx;
+					ctx = null;
+				}
+
+				let timer;
+				return function() {
+					let args = arguments;
+					if(timer) {
+						clearTimeout(timer);
+						timer = null;
+					}
+					timer = setTimeout(_ => {
+						fn.apply(ctx, args);
+						timer = null;
+					}, delay);
+				};
+			}
+
+			class SearchResults extends HTMLElement {
+				connectedCallback() {
+					this.form.hidden = false;
+
+					const filter = new URLSearchParams(window.location.search).get("q");
+					this.searchField.value = filter;
+
+					let indexLink = document.getElementById("index-link");
+					fetch(indexLink.href)
+						.then(response => response.text())
+						.then(html => {
+							this.results = [].slice.call(html2dom(html).querySelectorAll("li"));
+							this.renderResults(filter);
+						});
+
+					this.searchField.addEventListener("keyup", debounce(300, () => {
+						this.renderResults(this.searchField.value);
+					}));
+
+					this.form.addEventListener("submit", ev => {
+						ev.preventDefault();
+						this.renderResults(this.searchField.value);
+					});
+				}
+
+				renderResults(filter) {
+					this.resultList.innerHTML = '';
+					this.nrResults.hidden = true;
+					if (!this.results || !filter) {
+						this.h1.textContent = "Search Results";
+						return;
+					}
+
+					let resultsFound = this.results.filter(el => el.textContent.toLowerCase().includes(filter.toLowerCase()));
+
+					this.h1.textContent = `Search Results for "${filter}"`;
+
+					this.nrResults.textContent = resultsFound === 1 ? "1 result found" : `${resultsFound.length} results found`;
+					this.nrResults.hidden = false;
+					resultsFound
+						.forEach(li => {
+							this.resultList.appendChild(li.cloneNode(true))
+						});
+				}
+
+				get h1() {
+					return this.querySelector("h1");
+				}
+
+				get form() {
+					return this.querySelector("form");
+				}
+
+				get nrResults() {
+					return this.querySelector(".nr-of-results");
+				}
+
+				get resultList() {
+					return this.querySelector("ul");
+				}
+
+				get searchField() {
+					return this.querySelector("input[type=search]");
+				}
+			}
+
+
+			customElements.define("search-results", SearchResults);
+		</script>
+	</body>
+</html>

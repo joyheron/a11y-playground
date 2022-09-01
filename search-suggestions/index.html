@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Providing accessible search suggestions</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="component to show search results">
+		<link href="../joy.css" rel="stylesheet">
+		<style>
+			body > header {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+			}
+			button {
+				margin: 0;
+			}
+			custom-simplete {
+				position: relative;
+			}
+			simplete-suggestions {
+				position: absolute;
+				display: block;
+				margin-left: 3rem;
+				z-index: 1;
+				background-color: white;
+				border: 1px solid black;
+			}
+			simplete-suggestions > ul {
+				margin: 0;
+			}
+			simplete-suggestions:empty {
+				display: none;
+			}
+			simplete-suggestions [aria-selected=true] {
+				background-color: #FFFFA5;
+			}
+		</style>
+	</head>
+	<body>
+		<header id="header">
+			<nav>
+				<a id="index-link" href="../index.html">List of all Examples</a>
+			</nav>
+			<form role="search" action="./results.html">
+				<custom-simplete>
+					<label for="search-field">Search</label>
+					<input id="search-field" type="search" name="q">
+
+					<simplete-suggestions root-selector="custom-simplete"></simplete-suggestions>
+				</custom-simplete>
+				<button type="submit">Search</button>
+			</form>
+		</header>
+
+		<main>
+			<h1>Providing accessible search suggestions</h1>
+
+			<p>
+				This is a test to attempt to discover how to accessibly provide search
+				suggestions for a search widget that can be included in any page within
+				the website to allow users to search through content available on the
+				site.
+			</p>
+			<p>
+				This widget is not a dedicated search page, but instead will accept user
+				input and redirect the users to
+				<a href="./results.html">the dedicated search page</a> to show the results.
+			</p>
+			<p>
+				The test here is to determine how to accessibly provide autocomplete
+				suggestions for the user. The main goal of the test is to improve the
+				accessibility of the
+				<a href="https://github.com/innoq/simplete">simplete</a>
+				component, since that currently has some accessibility problems.
+			</p>
+			<h2>Test Goals</h2>
+			<p>
+				For the widget, we want to ensure the following:
+			</p>
+			<ol>
+				<li>
+					Screenreaders announce that there are autocomplete options
+					available.
+				</li>
+				<li>
+					When users cycle through the available options, these should be
+					announced to the user.
+				</li>
+				<li>
+					The options which are provided within the list of autocomplete
+					selections should only be accessible via the arrow keys and not
+					be accessible via the Tab-key.
+				</li>
+			</ol>
+			<p>
+				Additionally, we want also want to improve the user-experience for
+				the widget as much as possible. Selecting an autocomplete suggestion
+				should result in the same behavior as typing a user defined search
+				string and executing the form would result in. In our case, we redirect
+				to the results page in both cases.
+			</p>
+			<h2>Open Questions</h2>
+			<p>
+				One question that I currently have is whether or not the search field
+				should have a
+				<a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/combobox_role">
+					combobox role
+				</a>.
+				The autocomplete here is intended to provide <em>possible</em> solutions,
+				but will not always provide all of the possible solutions. I'm unclear
+				whether it is expected that all valid possiblities for the combobox are
+				provided in the listbox of solutions. That would definitely not be the
+				case here.
+			</p>
+			<p>
+				For now, the search field receives the <code>aria-haspopup=listbox</code>
+				and <code>aria-autocomplete=list</code> roles, and I would like to test
+				if this is sufficient, or if it should really be designated as a combobox
+				for assistive technologies.
+			</p>
+			<h2>How to test the widget</h2>
+			<p>
+				The search widget can be tested in the <a href="#header">header</a>
+				of the page.
+			</p>
+			<p>
+				An alternate solution which has been used as a reference for the
+				autocomplete implementation is
+				<a href="https://projects.verou.me/awesomplete/">awesomplete</a>.
+				The reason to prefer to use
+				<a href="https://github.com/innoq/simplete">simplete</a> would be
+				because it supports the generation of the search suggestions
+				dynamically on the server.
+			</p>
+		</main>
+
+		<script src="./simplete.js"></script>
+	</body>
+</html>
