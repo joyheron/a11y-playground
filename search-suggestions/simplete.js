@@ -325,12 +325,17 @@
         find(this, FOCUSSABLE_ELEMENTS).forEach(function (el) {
           return el.setAttribute("tabindex", "-1");
         });
-        find(this, this.itemSelector).forEach(function (el) {
+        var items = find(this, this.itemSelector);
+        items.forEach(function (el) {
           el.setAttribute("role", "option");
           el.id = el.id || "simplete-suggestion" + nid();
           el.setAttribute("aria-selected", "false");
-          console.log(el);
         });
+
+        if (this.getAttribute("status-field-selector")) {
+          var statusField = this.root.querySelector(this.getAttribute("status-field-selector"));
+          statusField.textContent = items.length;
+        }
       }
     }, {
       key: "onCycle",
@@ -620,10 +625,7 @@
     }, {
       key: "addAriaRoles",
       value: function addAriaRoles() {
-        // this.form.setAttribute("role", "search");
-        // this.setAttribute("aria-haspopup", "listbox");
-        // this.searchField.setAttribute("role", "textbox");
-        this.searchField.setAttribute("aria-haspopup", "listbox");
+        this.searchField.setAttribute("role", "combobox");
         this.searchField.setAttribute("aria-autocomplete", "list");
         this.searchField.setAttribute("aria-expanded", "false");
         this.suggestions.id = this.suggestions.id || "simplete-suggestions-" + nid();
@@ -920,10 +922,8 @@
               if (!this.possibilities.includes(word)) {
                 this.possibilities.push(word);
               }
-
             });
           });
-          console.log(this.possibilities);
         });
     }
 
@@ -945,7 +945,7 @@
       }
 
       let results = this.possibilities.filter(p => p.includes(this.query.toLowerCase()));
-      let htmlResult = results.length > 0 ? "<ul>" + results.map(r => `<li>
+      let htmlResult = results.length > 0 ?  `<ul aria-label="${results.length} Search Suggestions">` + results.map(r => `<li>
         <a href="./results.html?q=${r}">${r.split(this.query).join(`<mark>${this.query}</mark>`)}</a>
       </li>`).join("") + "</ul>" : "";
 
