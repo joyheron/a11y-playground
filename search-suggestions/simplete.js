@@ -45,18 +45,17 @@
   }
 
   function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
       return o.__proto__ || Object.getPrototypeOf(o);
     };
     return _getPrototypeOf(o);
   }
 
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
       o.__proto__ = p;
       return o;
     };
-
     return _setPrototypeOf(o, p);
   }
 
@@ -75,7 +74,7 @@
 
   function _construct(Parent, args, Class) {
     if (_isNativeReflectConstruct()) {
-      _construct = Reflect.construct;
+      _construct = Reflect.construct.bind();
     } else {
       _construct = function _construct(Parent, args, Class) {
         var a = [null];
@@ -310,7 +309,8 @@
         var attribs = {
           itemSelector: "data-item-selector",
           fieldSelector: "data-field-selector",
-          resultSelector: "data-result-selector"
+          resultSelector: "data-result-selector",
+          statusFieldSelector: "data-status-field-selector"
         };
         Object.keys(attribs).forEach(function (prop) {
           var attr = attribs[prop]; // NB: parent node is used to work around `querySelector` limitation
@@ -320,20 +320,21 @@
 
           var selector = container && container.getAttribute(attr);
           _this2[prop] = selector || DEFAULTS$1[prop];
-        }); // add aria roles and remove focussable elements
+        }); // remove focussable elements
 
         find(this, FOCUSSABLE_ELEMENTS).forEach(function (el) {
           return el.setAttribute("tabindex", "-1");
-        });
+        }); // set aria roles for each option and ensure that it has a valid HTML id
+
         var items = find(this, this.itemSelector);
         items.forEach(function (el) {
           el.setAttribute("role", "option");
           el.id = el.id || "simplete-suggestion" + nid();
           el.setAttribute("aria-selected", "false");
         });
+        var statusField = this.statusFieldSelector && this.root.querySelector(this.statusFieldSelector);
 
-        if (this.getAttribute("status-field-selector")) {
-          var statusField = this.root.querySelector(this.getAttribute("status-field-selector"));
+        if (statusField) {
           statusField.textContent = items.length;
         }
       }
@@ -718,6 +719,17 @@
             }
 
             break;
+
+          default:
+            // When the user types a new key, assume rejection of suggestion and restore input
+            var key = ev.key || ev["char"];
+
+            if (/^[a-zA-Z0-9]$/.test(key) && this.query && this.navigating) {
+              this.searchField.value = this.query;
+              delete this.navigating;
+              dispatchEvent(this, "simplete-abort");
+            }
+
         }
       }
     }, {
@@ -945,7 +957,7 @@
       }
 
       let results = this.possibilities.filter(p => p.includes(this.query.toLowerCase()));
-      let htmlResult = results.length > 0 ?  `<ul aria-label="${results.length} Search Suggestions">` + results.map(r => `<li>
+      let htmlResult = results.length > 0 ?  `<ul aria-label="${results.length} Search Suggestions" data-status-field-selector=".nr-search-results">` + results.map(r => `<li>
         <a href="./results.html?q=${r}">${r.split(this.query).join(`<mark>${this.query}</mark>`)}</a>
       </li>`).join("") + "</ul>" : "";
 
@@ -958,4 +970,5 @@
   }
 
   customElements.define("custom-simplete", CustomSimplete);
+
 })();

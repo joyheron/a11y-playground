@@ -36,6 +36,9 @@
 			simplete-suggestions [aria-selected=true] {
 				background-color: #FFFFA5;
 			}
+			input[type=search]:not(:focus) + [aria-live] {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -51,7 +54,7 @@
 					<span class="visually-hidden" aria-live="assertive">
 						<span class="nr-search-results"></span> search suggestions available
 					</span>
-					<simplete-suggestions root-selector="custom-simplete" status-field-selector=".nr-search-results"></simplete-suggestions>
+					<simplete-suggestions root-selector="custom-simplete"></simplete-suggestions>
 				</custom-simplete>
 				<button type="submit">Search</button>
 			</form>
@@ -60,15 +63,25 @@
 		<main>
 			<h1>Providing accessible search suggestions</h1>
 
-			<ins datetime="2022-09-02T10:25">
-				<strong>Update:</strong>
-				The component has been modified after the first tests and some feedback
-				has been incorporated. The newest version of this component attempts to
-				implement <a href="#test2-changes">three new ideas</a>.
-			</ins>
+			<p>
+				<ins datetime="2022-09-02T15:30">
+					<strong>Update Septenber 2, 2022 at 3:30 p.m.:</strong>
+					The component has been modified after the second test. The third version
+					of this component attempts to fix
+					<a href="#test3-changes">two issues with the component</a>.
+				</ins>
+			</p>
+			<p>
+				<ins datetime="2022-09-02T10:25">
+					<strong>Update September 2, 2022 at 9:15 a.m.:</strong>
+					The component has been modified after the first tests and some feedback
+					has been incorporated. The second version of this component attempts to
+					implement <a href="#test2-changes">three new ideas</a>.
+				</ins>
+			</p>
 
 			<p>
-				This is a test to attempt to discover how to accessibly provide search
+				This is a series of tests to discover how to accessibly provide search
 				suggestions for a search widget that can be included in any page within
 				the website to allow users to search through content available on the
 				site.
@@ -85,23 +98,24 @@
 				<a href="https://github.com/innoq/simplete">simplete</a>
 				component, since that currently has some accessibility problems.
 			</p>
-			<h2>Test Goals</h2>
+			<h2>Test Goals - Iteration 1</h2>
 			<p>
-				For the widget, we want to ensure the following:
+				In the first iteration of the tests, we ensured that the following
+				goals were achieved.
 			</p>
 			<ol>
 				<li>
 					Assistive technologies announce that there are autocomplete options
-					available.
+					available when the focus is within the search field.
 				</li>
 				<li>
-					When users cycle through the available options, these should be
-					announced to the user.
+					When users cycle through the available options, these are announced
+					to the user.
 				</li>
 				<li>
 					The options which are provided within the list of autocomplete
-					selections should only be accessible via the arrow keys and not
-					be accessible via the Tab-key.
+					selections are only accessible via the arrow keys and not
+					reachable via the Tab-key.
 				</li>
 			</ol>
 			<p>
@@ -111,65 +125,77 @@
 				string and executing the form would result in. In our case, we redirect
 				to the results page in both cases.
 			</p>
-			<h2>Further Test Goals</h2>
+			<h2>Test Goals - Iteration 2</h2>
 			<p>
 				In the first test, we were able to achieve the aforementioned goals.
-				After some feedback, the current version includes the following changes:
+				After some feedback, the second version includes the following changes:
 			</p>
 			<ol id="test2-changes">
 				<li>
-					An <code>aria-live</code> region has been added to the widget to
-					announce to assistive technologies how many search suggestions are
-					available. <strong>Note:</strong> we want the widget to be able to
+					The widget should announce the number of search suggestions available
+					to assistive technologies. For this, an <code>aria-live</code> region
+					will be needed.
+					<strong>Note:</strong> we want the widget to be able to
 					support this, but this is a feature that we will need to test with
 					users. It may not always be useful.
 				</li>
 				<li>
-					<p>
-						The list of suggestions now includes a label on the <code>ul</code>
-						element, which results in the list and the number of suggestions
-						being announced as a list in NVDA.
-					</p>
-					<p>
-						<strong>I still have the following open question:</strong>
-						In my tests with NVDA this still does not result in announcing
-						which element within the list is currently selected. I'm not sure
-						if that is because of my NVDA settings. The elements are semantic
-						<code>li</code> elements, but they also have the
-						<code>role=option</code> set, so I'm not sure if that would
-						override the list semantics for assistive technologies.
-					</p>
+					The list of suggestions should be announced as a list in NVDA.
+					This goal was achieved by adding a label to the <code>ul</code>
+					element, without which the list information was not correctly
+					announced in NVDA.
 				</li>
 				<li>
-					I've updated the input field to use the <code>combobox=role</code>.
-					I originally left this out (see
-					<a href="#combobox-question">my open question about combobox</a>),
-					but according to the
-					<a href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/">
-						WAI ARIA Authoring Practices Guide for Combobox
-					</a> a search field is used as an example for when a combobox can
-					be used to accept arbitrary values but suggest possible values
-					to the user.
+					The input field should use the <code>combobox=role</code>.
+					See
+					<a href="#combobox-question">the question about combobox</a>
+					for more details.
 				</li>
 			</ol>
-			<h2 id="combobox-question">Open Question about combobox</h2>
+			<h2>Test Goals - Iteration 3</h2>
 			<p>
-				One question that I currently have is whether or not the search field
-				should have a
+				Here are the goals that we want to accomplish in the third iteration
+				of our test:
+			</p>
+			<ol id="test3-changes">
+				<li>
+					It should always be possible to revert from a search suggestion
+					back to the original query by continuing to type. When the suggestion
+					box opens and the user cycles through the available options, the user
+					may decide that none of the options are relevant and want to continue
+					typing to complete the original search query.
+				</li>
+				<li>
+					One finding in the test was that it was sometimes possible that the
+					text element used to announce the number of search suggestions was
+					still read out when navigating from the search field to the search
+					button in NVDA. I believe this occured when navigating in browse
+					mode because the <code>aria-live</code> was still available as a
+					text node even when the focus left the search field. This has been
+					fixed so that the <code>aria-live</code> region is only active
+					when the focus is the search field.
+				</li>
+			</ol>
+			<h2 id="combobox-question">Question about combobox role</h2>
+			<p>
+				One question is whether or not the search field should have a
 				<a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/combobox_role">
 					combobox role
 				</a>.
 				The autocomplete here is intended to provide <em>possible</em> solutions,
-				but will not always provide all of the possible solutions. I'm unclear
-				whether it is expected that all valid possiblities for the combobox are
-				provided in the listbox of solutions. That would definitely not be the
-				case here.
+				but will not always provide all of the possible solutions.
+				I was originally unclear if a combobox was the correct role, because for
+				use case, we make no promises about providing all valid possibilities
+				for the search field. However, because the
+				<a href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/">
+					WAI ARIA Authoring Practices Guide for Combobox
+				</a> explicitly uses a search field as an example for a combobox which
+				provides some possible suggestions for the user but allows any content,
+				I've decided to use the <code>combobox</code> role for now.
 			</p>
 			<p>
-				For now, the search field receives the <code>aria-haspopup=listbox</code>
-				and <code>aria-autocomplete=list</code> roles, and I would like to test
-				if this is sufficient, or if it should really be designated as a combobox
-				for assistive technologies.
+				An alternative solution would be to use the
+				<code>aria-haspopup=listbox</code> role instead.
 			</p>
 			<h2>How to test the widget</h2>
 			<p>
@@ -186,7 +212,6 @@
 				dynamically on the server.
 			</p>
 		</main>
-
 		<script src="./simplete.js"></script>
 	</body>
 </html>
