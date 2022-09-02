@@ -60,6 +60,13 @@
 		<main>
 			<h1>Providing accessible search suggestions</h1>
 
+			<ins datetime="2022-09-02T10:25">
+				<strong>Update:</strong>
+				The component has been modified after the first tests and some feedback
+				has been incorporated. The newest version of this component attempts to
+				implement <a href="#test2-changes">three new ideas</a>.
+			</ins>
+
 			<p>
 				This is a test to attempt to discover how to accessibly provide search
 				suggestions for a search widget that can be included in any page within
@@ -84,7 +91,7 @@
 			</p>
 			<ol>
 				<li>
-					Screenreaders announce that there are autocomplete options
+					Assistive technologies announce that there are autocomplete options
 					available.
 				</li>
 				<li>
@@ -104,7 +111,48 @@
 				string and executing the form would result in. In our case, we redirect
 				to the results page in both cases.
 			</p>
-			<h2>Open Questions</h2>
+			<h2>Further Test Goals</h2>
+			<p>
+				In the first test, we were able to achieve the aforementioned goals.
+				After some feedback, the current version includes the following changes:
+			</p>
+			<ol id="test2-changes">
+				<li>
+					An <code>aria-live</code> region has been added to the widget to
+					announce to assistive technologies how many search suggestions are
+					available. <strong>Note:</strong> we want the widget to be able to
+					support this, but this is a feature that we will need to test with
+					users. It may not always be useful.
+				</li>
+				<li>
+					<p>
+						The list of suggestions now includes a label on the <code>ul</code>
+						element, which results in the list and the number of suggestions
+						being announced as a list in NVDA.
+					</p>
+					<p>
+						<strong>I still have the following open question:</strong>
+						In my tests with NVDA this still does not result in announcing
+						which element within the list is currently selected. I'm not sure
+						if that is because of my NVDA settings. The elements are semantic
+						<code>li</code> elements, but they also have the
+						<code>role=option</code> set, so I'm not sure if that would
+						override the list semantics for assistive technologies.
+					</p>
+				</li>
+				<li>
+					I've updated the input field to use the <code>combobox=role</code>.
+					I originally left this out (see
+					<a href="#combobox-question">my open question about combobox</a>),
+					but according to the
+					<a href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/">
+						WAI ARIA Authoring Practices Guide for Combobox
+					</a> a search field is used as an example for when a combobox can
+					be used to accept arbitrary values but suggest possible values
+					to the user.
+				</li>
+			</ol>
+			<h2 id="combobox-question">Open Question about combobox</h2>
 			<p>
 				One question that I currently have is whether or not the search field
 				should have a
