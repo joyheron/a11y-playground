@@ -304,6 +304,23 @@
 				</li>
 			</ul>
 			<p>
+				The reasons why this is seen as an Antipattern is that a submenu within
+				a site navigation is not semantically the same as what would be
+				expected for a <code>menu</code> role, because setting the
+				<code>menuitem</code> role on all the links (which is required in order
+				for the menu to be accessible) causes the link to no longer be
+				recognized as a link for assistive technologies.
+			</p>
+			<p>
+				Additionally: implementing the submenu navigation as a
+				<code>menu</code> also changes how the menu should be navigated via the
+				keyboard: instead of navigating between the links via the TAB key, the
+				user can only exclusively use the arrow keys. For some keyboard users
+				this may be intuitive, but it does differ from many sites which use the
+				disclosure navigation pattern and allow navigating through the site
+				navigation with the TAB key.
+			</p>
+			<p>
 				Note: there is
 				<a href="https://www.w3.org/WAI/ARIA/apg/example-index/menu-button/menu-button-links">
 					an example provided by the ARIA Authoring Practices Guide</a>
