@@ -15,15 +15,26 @@
 
 		<p>
 			These examples are focusing explicitly on a website navbar which has a
-			lot of submenus. In general, I believe that these submenus should be
-			exclusively an enhancement on the website. When the user clicks on a
-			link in the navbar to a topic page which has a submenu, all of the links
-			which are available in the submenu should also be prominently displayed
-			at the top of the topic page.
+			lot of submenus.
 		</p>
 		<p>
-			However, in this post I want to investigate how to best provide these
-			submenus <em>as an enhancement</em>. I using the navbar for the
+			<ins datetime="2022-10-24T11:45">
+				Update October 24, 2022: In a previous version of this post, we tested
+				a navbar structure where the main navigation item included both a
+				<em>link</em> to a topic page for a subject
+				<strong>and</strong> a <em>button</em> which toggled a submenu
+				containing posts belonging to the topic. I had the hypothesis that
+				the topic pages would be more intuitive for users and that the submenus
+				could be implemented as a progressive enhancement.
+				However, in the first tests this hypothesis proved to be false. The
+				submenus are more intuitive for the users and it is confusing that
+				the navigation item includes both a link and a button.
+				This version therefore removes the link to the topic page and
+				keeps the button for toggling the submenu.
+			</ins>
+		</p>
+		<p>
+			I am using the navbar for the
 			<a href="https://www.innoq.com/">INNOQ.com</a> website as a test for
 			the navbar structure. Because the navbars here are only intended for test
 			purposes, the link targets will always lead back to this page.
@@ -51,7 +62,7 @@
 				element which will mean that for browsers which support the details
 				element (i.e. all modern browsers), the submenus will by default be
 				able to be expanded/collapsed even when no custom CSS and JavaScript
-				are specified. The navigation itself is a nested list of links, and
+				are specified. The navigation itself is a list, and
 				the submenu <code>ul</code> element has been labelled to provide
 				information for assistive technologies.
 			</p>
@@ -67,9 +78,8 @@
 				<span id="nav-example-1-label" aria-hidden="true">First Example Navbar</span>
 				<ul>
 					<li>
-						<a href="#">Services</a>
 						<details>
-							<summary id="services-submenu-1">Services submenu</summary>
+							<summary id="services-submenu-1">Services</summary>
 							<ul aria-labelledby="services-submenu-1">
 								<li><a href="#">Strategy and Technology Consulting</a></li>
 								<li><a href="#">Digital Product Development</a></li>
@@ -83,9 +93,8 @@
 						<a href="#">Success Stories</a>
 					</li>
 					<li>
-						<a href="#">Culture</a>
 						<details>
-							<summary id="culture-submenu-1">Culture submenu</summary>
+							<summary id="culture-submenu-1">Culture</summary>
 							<ul aria-labelledby="culture-submenu-1">
 								<li><a href="#">How we collaborate</a></li>
 								<li><a href="#">What’s important to us</a></li>
@@ -95,9 +104,8 @@
 						</details>
 					</li>
 					<li>
-						<a href="#">Magazine</a>
 						<details>
-							<summary id="magazine-submenu-1">Magazine submenu</summary>
+							<summary id="magazine-submenu-1">Magazine</summary>
 							<ul aria-labelledby="magazine-submenu-1">
 								<li><a href="#">Blog &amp; Articles</a></li>
 								<li><a href="#">Podcasts</a></li>
@@ -110,9 +118,8 @@
 						</details>
 					</li>
 					<li>
-						<a href="#">Trends</a>
 						<details>
-							<summary id="trends-submenu-1">Trends submenu</summary>
+							<summary id="trends-submenu-1">Trends</summary>
 							<ul aria-labelledby="trends-submenu-1">
 								<li><a href="#">Accessibility</a></li>
 								<li><a href="#">Cloud Migration</a></li>
@@ -124,9 +131,8 @@
 						</details>
 					</li>
 					<li>
-						<a href="#">Trainings</a>
 						<details>
-							<summary id="trainings-submenu-1">Trainings submenu</summary>
+							<summary id="trainings-submenu-1">Trainings</summary>
 							<ul aria-labelledby="trainings-submenu-1">
 								<li><a href="#">Why Online Trainings?</a></li>
 								<li><a href="#">iSAQB CPSA-F Foundation Level</a></li>
@@ -176,13 +182,17 @@
 				here.
 			</p>
 
+			<p>
+				In this version, I would like to test especially if it is clear that the button will toggle a
+				submenu or if we should add extra information to assistive technologies to test this.
+			</p>
+
 			<nav aria-labelledby="nav-example-2-label">
 				<span id="nav-example-2-label" aria-hidden="true">Second Example Navbar</span>
 				<ul>
 					<li>
-						<a href="#">Services</a>
 						<toggle-button target="services-submenu-2">
-							<button hidden>Toggle Services submenu</button>
+							<button hidden>Services</button>
 						</toggle-button>
 						<ul id="services-submenu-2" aria-label="Services submenu">
 							<li><a href="#">Strategy and Technology Consulting</a></li>
@@ -196,9 +206,8 @@
 						<a href="#">Success Stories</a>
 					</li>
 					<li>
-						<a href="#">Culture</a>
 						<toggle-button target="culture-submenu-2">
-							<button hidden>Toggle Culture submenu</button>
+							<button hidden>Culture</button>
 						</toggle-button>
 						<ul id="culture-submenu-2" aria-labelledby="Culture submenu">
 							<li><a href="#">How we collaborate</a></li>
@@ -208,9 +217,8 @@
 						</ul>
 					</li>
 					<li>
-						<a href="#">Magazine</a>
 						<toggle-button target="magazine-submenu-2">
-							<button hidden>Toggle Magazine submenu</button>
+							<button hidden>Magazine</button>
 						</toggle-button>
 						<ul id="magazine-submenu-2" aria-labelledby="Magazine submenu">
 							<li><a href="#">Blog &amp; Articles</a></li>
@@ -223,9 +231,8 @@
 						</ul>
 					</li>
 					<li>
-						<a href="#">Trends</a>
 						<toggle-button target="trends-submenu-2">
-							<button hidden>Toggle Trends submenu</button>
+							<button hidden>Trends</button>
 						</toggle-button>
 						<ul id="trends-submenu-2" aria-labelledby="Trends submenu">
 							<li><a href="#">Accessibility</a></li>
@@ -237,9 +244,8 @@
 						</ul>
 					</li>
 					<li>
-						<a href="#">Trainings</a>
 						<toggle-button target="trainings-submenu-2">
-							<button hidden>Toggle Trainings submenu</button>
+							<button hidden>Trainings</button>
 						</toggle-button>
 						<ul id="trainings-submenu-2" aria-labelledby="Trainings submenu">
 							<li><a href="#">Why Online Trainings?</a></li>
