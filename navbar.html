@@ -44,6 +44,17 @@
 			<a href="https://inclusive-components.design/menus-menu-buttons/">
 				Menu & Menu Buttons post from Heydon Pickering</a>.
 		</p>
+		<p>
+			<ins datetime="2022-11-04T10:00">
+				Update November 04, 2022: The accessibility of the examples have been
+				optimized by adding an <code>aria-label</code> to the <code>ul</code>
+				to designate it as being the main navigation for the page.
+				Additionally, the bullets of the list entries within the navbar have
+				been hidden with CSS because it isn't possible to select an entry in
+				the list by selecting the bullet point and it adds extra information
+				for assistive technologies which is not useful.
+			</ins>
+		</p>
 
 		<nav aria-labelledby="toc-label">
 			<span id="toc-label" aria-hidden="true">Table of Contents</span>
@@ -76,11 +87,11 @@
 			</p>
 			<nav aria-labelledby="nav-example-1-label">
 				<span id="nav-example-1-label" aria-hidden="true">First Example Navbar</span>
-				<ul>
+				<ul aria-label="Page Navigation" role="list">
 					<li>
 						<details>
 							<summary id="services-submenu-1">Services</summary>
-							<ul aria-labelledby="services-submenu-1">
+							<ul aria-labelledby="services-submenu-1" role="list">
 								<li><a href="#">Strategy and Technology Consulting</a></li>
 								<li><a href="#">Digital Product Development</a></li>
 								<li><a href="#">Software Architecture and Development</a></li>
@@ -95,7 +106,7 @@
 					<li>
 						<details>
 							<summary id="culture-submenu-1">Culture</summary>
-							<ul aria-labelledby="culture-submenu-1">
+							<ul aria-labelledby="culture-submenu-1" role="list">
 								<li><a href="#">How we collaborate</a></li>
 								<li><a href="#">What’s important to us</a></li>
 								<li><a href="#">Working at INNOQ</a></li>
@@ -106,7 +117,7 @@
 					<li>
 						<details>
 							<summary id="magazine-submenu-1">Magazine</summary>
-							<ul aria-labelledby="magazine-submenu-1">
+							<ul aria-labelledby="magazine-submenu-1" role="list">
 								<li><a href="#">Blog &amp; Articles</a></li>
 								<li><a href="#">Podcasts</a></li>
 								<li><a href="#">Talks</a></li>
@@ -120,7 +131,7 @@
 					<li>
 						<details>
 							<summary id="trends-submenu-1">Trends</summary>
-							<ul aria-labelledby="trends-submenu-1">
+							<ul aria-labelledby="trends-submenu-1" role="list">
 								<li><a href="#">Accessibility</a></li>
 								<li><a href="#">Cloud Migration</a></li>
 								<li><a href="#">Data Mesh</a></li>
@@ -133,7 +144,7 @@
 					<li>
 						<details>
 							<summary id="trainings-submenu-1">Trainings</summary>
-							<ul aria-labelledby="trainings-submenu-1">
+							<ul aria-labelledby="trainings-submenu-1" role="list">
 								<li><a href="#">Why Online Trainings?</a></li>
 								<li><a href="#">iSAQB CPSA-F Foundation Level</a></li>
 								<li><a href="#">Accessibility</a></li>
@@ -189,12 +200,12 @@
 
 			<nav aria-labelledby="nav-example-2-label">
 				<span id="nav-example-2-label" aria-hidden="true">Second Example Navbar</span>
-				<ul>
+				<ul aria-label="Page Navigation" role="list">
 					<li>
 						<toggle-button target="services-submenu-2">
 							<button hidden>Services</button>
 						</toggle-button>
-						<ul id="services-submenu-2" aria-label="Services submenu">
+						<ul id="services-submenu-2" aria-label="Services submenu" role="list">
 							<li><a href="#">Strategy and Technology Consulting</a></li>
 							<li><a href="#">Digital Product Development</a></li>
 							<li><a href="#">Software Architecture and Development</a></li>
@@ -209,7 +220,7 @@
 						<toggle-button target="culture-submenu-2">
 							<button hidden>Culture</button>
 						</toggle-button>
-						<ul id="culture-submenu-2" aria-labelledby="Culture submenu">
+						<ul id="culture-submenu-2" aria-labelledby="Culture submenu" role="list">
 							<li><a href="#">How we collaborate</a></li>
 							<li><a href="#">What’s important to us</a></li>
 							<li><a href="#">Working at INNOQ</a></li>
@@ -220,7 +231,7 @@
 						<toggle-button target="magazine-submenu-2">
 							<button hidden>Magazine</button>
 						</toggle-button>
-						<ul id="magazine-submenu-2" aria-labelledby="Magazine submenu">
+						<ul id="magazine-submenu-2" aria-labelledby="Magazine submenu" role="list">
 							<li><a href="#">Blog &amp; Articles</a></li>
 							<li><a href="#">Podcasts</a></li>
 							<li><a href="#">Talks</a></li>
@@ -234,7 +245,7 @@
 						<toggle-button target="trends-submenu-2">
 							<button hidden>Trends</button>
 						</toggle-button>
-						<ul id="trends-submenu-2" aria-labelledby="Trends submenu">
+						<ul id="trends-submenu-2" aria-labelledby="Trends submenu" role="list">
 							<li><a href="#">Accessibility</a></li>
 							<li><a href="#">Cloud Migration</a></li>
 							<li><a href="#">Data Mesh</a></li>
@@ -247,7 +258,7 @@
 						<toggle-button target="trainings-submenu-2">
 							<button hidden>Trainings</button>
 						</toggle-button>
-						<ul id="trainings-submenu-2" aria-labelledby="Trainings submenu">
+						<ul id="trainings-submenu-2" aria-labelledby="Trainings submenu" role="list">
 							<li><a href="#">Why Online Trainings?</a></li>
 							<li><a href="#">iSAQB CPSA-F Foundation Level</a></li>
 							<li><a href="#">Accessibility</a></li>

@@ -26,6 +26,10 @@ ul {
 ul > li + li {
 	margin-top: var(--spacer-xs);
 }
+ul[role=list],
+ol[role=list] {
+	list-style: none;
+}
 
 button {
 	border-radius: var(--spacer-xs);
