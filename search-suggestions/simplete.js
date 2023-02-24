@@ -168,6 +168,9 @@
     var nodes = node.querySelectorAll(selector);
     var length = nodes.length;
     return length ? nodes[length - 1] : null;
+  }
+  function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
   } // NB: only supports vertical scrolling
 
   function scrollIfNecessary(node) {
@@ -250,8 +253,8 @@
     });
   }
 
-  var TAG$1 = "simplete-suggestions";
-  var DEFAULTS$1 = {
+  var TAG$2 = "simplete-suggestions";
+  var DEFAULTS$2 = {
     rootSelector: "simplete-form",
     itemSelector: "li",
     fieldSelector: "input[type=hidden]",
@@ -264,15 +267,14 @@
 
     var _super = _createSuper(SimpleteSuggestions);
 
-    // NB: `self` only required due to document-register-element polyfill
-    function SimpleteSuggestions(self) {
+    function SimpleteSuggestions() {
       var _this;
 
       _classCallCheck(this, SimpleteSuggestions);
 
-      self = _this = _super.call(this, self);
-      bindMethodContext(self, "onQuery", "onResults", "onCycle", "onConfirm", "onAbort");
-      return _possibleConstructorReturn(_this, self);
+      _this = _super.call(this);
+      bindMethodContext(_assertThisInitialized(_this), "onQuery", "onResults", "onCycle", "onConfirm", "onAbort");
+      return _this;
     }
 
     _createClass(SimpleteSuggestions, [{
@@ -309,34 +311,33 @@
         var attribs = {
           itemSelector: "data-item-selector",
           fieldSelector: "data-field-selector",
-          resultSelector: "data-result-selector",
-          statusFieldSelector: "data-status-field-selector"
+          resultSelector: "data-result-selector"
         };
         Object.keys(attribs).forEach(function (prop) {
           var attr = attribs[prop]; // NB: parent node is used to work around `querySelector` limitation
           //     WRT immediate child elements -- XXX: not actually necessary?
 
-          var container = _this2.parentNode.querySelector("".concat(TAG$1, " > [").concat(attr, "]"));
+          var container = _this2.parentNode.querySelector("".concat(TAG$2, " > [").concat(attr, "]"));
 
           var selector = container && container.getAttribute(attr);
-          _this2[prop] = selector || DEFAULTS$1[prop];
-        }); // remove focussable elements
+          _this2[prop] = selector || DEFAULTS$2[prop];
+        });
+        var status = this.querySelector("[data-autocomplete-status]");
+
+        if (status) {
+          dispatchEvent(this.root, "simplete-suggestion-status", {
+            status: status.getAttribute("data-autocomplete-status") || ""
+          });
+        }
 
         find(this, FOCUSSABLE_ELEMENTS).forEach(function (el) {
           return el.setAttribute("tabindex", "-1");
-        }); // set aria roles for each option and ensure that it has a valid HTML id
-
-        var items = find(this, this.itemSelector);
-        items.forEach(function (el) {
-          el.setAttribute("role", "option");
+        });
+        find(this, this.itemSelector).forEach(function (el) {
           el.id = el.id || "simplete-suggestion" + nid();
+          el.setAttribute("role", "option");
           el.setAttribute("aria-selected", "false");
         });
-        var statusField = this.statusFieldSelector && this.root.querySelector(this.statusFieldSelector);
-
-        if (statusField) {
-          statusField.textContent = items.length;
-        }
       }
     }, {
       key: "onCycle",
@@ -352,7 +353,6 @@
         } else {
           // select adjacent item or wrap around
           currentItem.removeAttribute("aria-selected");
-          this.searchField.removeAttribute("aria-activedescendant");
           var items = find(this, selector);
           var index = items.indexOf(currentItem);
 
@@ -365,7 +365,6 @@
 
         if (currentItem) {
           currentItem.setAttribute("aria-selected", "true");
-          this.searchField.setAttribute("aria-activedescendant", currentItem.id);
           this.selectItem(currentItem, true);
           scrollIfNecessary(currentItem);
         }
@@ -405,15 +404,16 @@
       }
     }, {
       key: "selectItem",
-      value: function selectItem(node, preview) {
-        if (!preview) {
+      value: function selectItem(node, navigating) {
+        if (!navigating) {
           node = node.cloneNode(true); // prevents IE 11 from discarding child elements
 
           this.render("");
         }
 
         var payload = {
-          preview: preview
+          id: node.id,
+          navigating: navigating
         };
         var field = node.querySelector(this.fieldSelector);
 
@@ -444,7 +444,9 @@
 
         if (suggestions || suggestions === "") {
           this.innerHTML = suggestions;
-          this.searchField.setAttribute("aria-expanded", this.innerHTML.trim() !== "");
+          dispatchEvent(this.root, "simplete-suggestion-toggle", {
+            expanded: this.innerHTML.trim() !== ""
+          });
         } // NB: intentionally not erasing suggestions otherwise to avoid flickering
 
       }
@@ -465,17 +467,54 @@
     }, {
       key: "root",
       get: function get() {
-        var selector = this.getAttribute("root-selector") || DEFAULTS$1.rootSelector;
+        var selector = this.getAttribute("root-selector") || DEFAULTS$2.rootSelector;
         return this.closest(selector);
-      }
-    }, {
-      key: "searchField",
-      get: function get() {
-        return document.querySelector("[aria-owns=\"".concat(this.id, "\"]"));
       }
     }]);
 
     return SimpleteSuggestions;
+  }( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+
+  var TAG$1 = "simplete-status";
+  var DEFAULTS$1 = {
+    rootSelector: "simplete-form"
+  };
+
+  var SimpleteStatus = /*#__PURE__*/function (_HTMLElement) {
+    _inherits(SimpleteStatus, _HTMLElement);
+
+    var _super = _createSuper(SimpleteStatus);
+
+    function SimpleteStatus() {
+      var _this;
+
+      _classCallCheck(this, SimpleteStatus);
+
+      _this = _super.call(this);
+      bindMethodContext(_assertThisInitialized(_this), "onSuggestionStatus");
+      return _this;
+    }
+
+    _createClass(SimpleteStatus, [{
+      key: "connectedCallback",
+      value: function connectedCallback() {
+        this.setAttribute("aria-live", "assertive");
+        this.root.addEventListener("simplete-suggestion-status", this.onSuggestionStatus);
+      }
+    }, {
+      key: "onSuggestionStatus",
+      value: function onSuggestionStatus(ev) {
+        this.textContent = ev.detail.status;
+      }
+    }, {
+      key: "root",
+      get: function get() {
+        var selector = this.getAttribute("root-selector") || DEFAULTS$1.rootSelector;
+        return this.closest(selector);
+      }
+    }]);
+
+    return SimpleteStatus;
   }( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
 
   /* eslint-env browser */
@@ -594,43 +633,43 @@
 
     var _super = _createSuper(SimpleteForm);
 
-    // NB: `self` only required due to document-register-element polyfill
-    function SimpleteForm(self) {
+    function SimpleteForm() {
       var _this;
 
       _classCallCheck(this, SimpleteForm);
 
-      self = _this = _super.call(this, self);
-      bindMethodContext(self, "onInput", "onResponse");
-      return _possibleConstructorReturn(_this, self);
+      _this = _super.call(this);
+      bindMethodContext(_assertThisInitialized(_this), "onInput", "onResponse", "onToggle");
+      return _this;
     }
 
     _createClass(SimpleteForm, [{
       key: "connectedCallback",
       value: function connectedCallback() {
+        var field = this.searchField;
+
         if (!this.querySelector(TAG$1)) {
+          var status = document.createElement(TAG$1);
+          var labelOrField = field.closest("label") || field;
+          insertAfter(status, labelOrField);
+        }
+
+        if (!this.querySelector(TAG$2)) {
           // guard against repeat initialization
-          var results = document.createElement(TAG$1);
+          var results = document.createElement(TAG$2);
           this.appendChild(results);
         }
 
-        var field = this.searchField;
         field.setAttribute("autocomplete", "off");
-        this.addAriaRoles();
+        field.setAttribute("role", "combobox");
+        field.setAttribute("aria-autocomplete", "list");
+        field.setAttribute("aria-expanded", "false");
         var onQuery = debounce(this.queryDelay, this, this.onQuery);
         this.addEventListener("input", onQuery);
         this.addEventListener("change", onQuery);
         this.addEventListener("simplete-suggestion-selection", this.onSelect);
         field.addEventListener("keydown", this.onInput);
-      }
-    }, {
-      key: "addAriaRoles",
-      value: function addAriaRoles() {
-        this.searchField.setAttribute("role", "combobox");
-        this.searchField.setAttribute("aria-autocomplete", "list");
-        this.searchField.setAttribute("aria-expanded", "false");
-        this.suggestions.id = this.suggestions.id || "simplete-suggestions-" + nid();
-        this.searchField.setAttribute("aria-owns", this.suggestions.id);
+        this.addEventListener("simplete-suggestion-toggle", this.onToggle);
       }
     }, {
       key: "onQuery",
@@ -721,35 +760,44 @@
             break;
 
           default:
-            // When the user types a new key, assume rejection of suggestion and restore input
-            var key = ev.key || ev["char"];
-
-            if (/^[a-zA-Z0-9]$/.test(key) && this.query && this.navigating) {
+            if (this.query && this.navigating) {
+              // restore original (pre-preview) input
               this.searchField.value = this.query;
               delete this.navigating;
-              dispatchEvent(this, "simplete-abort");
+              dispatchEvent(this, "simplete-abort"); // TODO: rename?
             }
 
         }
       }
     }, {
+      key: "onToggle",
+      value: function onToggle(ev) {
+        var field = this.searchField;
+        field.setAttribute("aria-expanded", ev.detail.expanded ? "true" : "false");
+        field.removeAttribute("aria-activedescendant");
+        delete this.navigating;
+      }
+    }, {
       key: "onSelect",
       value: function onSelect(ev) {
         var _ev$detail = ev.detail,
+            id = _ev$detail.id,
             value = _ev$detail.value,
-            preview = _ev$detail.preview;
+            navigating = _ev$detail.navigating;
+        var field = this.searchField;
 
-        if (preview) {
+        if (navigating) {
+          field.setAttribute("aria-activedescendant", id);
           this.navigating = true;
         }
 
         if (value) {
-          this.searchField.value = value;
+          field.value = value;
           this.payload = this.serialize();
         } // notify external observers
 
 
-        if (value && !preview) {
+        if (value && !navigating) {
           dispatchEvent(this, "simplete-selection", {
             value: value
           }, {
@@ -901,7 +949,7 @@
     }, {
       key: "suggestions",
       get: function get() {
-        return this.querySelector(TAG$1);
+        return this.querySelector(TAG$2);
       }
     }]);
 
@@ -910,7 +958,8 @@
 
   /* eslint-env browser */
   customElements.define(TAG, SimpleteForm);
-  customElements.define(TAG$1, SimpleteSuggestions);
+  customElements.define(TAG$2, SimpleteSuggestions);
+  customElements.define(TAG$1, SimpleteStatus);
 
   function html2dom(html) {
     let parser = new DOMParser();
@@ -957,7 +1006,8 @@
       }
 
       let results = this.possibilities.filter(p => p.includes(this.query.toLowerCase()));
-      let htmlResult = results.length > 0 ?  `<ul aria-label="${results.length} Search Suggestions" data-status-field-selector=".nr-search-results">` + results.map(r => `<li>
+      let status = results.length === 1 ? "1 search suggestion available" : `${results.length} search suggestions available`;
+      let htmlResult = results.length > 0 ?  `<ul aria-label="${results.length} Search Suggestions" data-autocomplete-status="${status}">` + results.map(r => `<li>
         <a href="./results.html?q=${r}">${r.split(this.query).join(`<mark>${this.query}</mark>`)}</a>
       </li>`).join("") + "</ul>" : "";
 
