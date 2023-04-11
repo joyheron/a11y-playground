@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>An Example Navbar for INNOQ.com</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="How to test buttons">
+	</head>
+	<body>
+		<a lang="de" href="#main" class="skip-link">Zum Inhalt springen</a>
+		<nav lang="de" class="main-navigation" aria-label="Webseite Navigation">
+				<a href="#" class="brand-link">
+						<img alt="" class="brand-logo" src="data:image/svg+xml;charset=UTF-8,%3csvg height='56' viewBox='0 0 226 56' width='226' xmlns='http://www.w3.org/2000/svg'%3e%3cg fill='none'%3e%3cpath d='m.4 1.9h12.5v52.5h-12.5z' fill='%23fff'/%3e%3cpath d='m103.3 54.4v-52.5h-12.5v32.1l-24-32.1h-5.5-6.5v32.1l-23.9-32.1h-12v52.5h12.5v-32l23.9 32h2.1 7.1 2.9v-32l23.9 32z' fill='%23fff'/%3e%3cg transform='translate(107)'%3e%3cpath d='m28.3 12.9c8.5 0 14.6 6.2 14.6 15.2s-6.1 15.2-14.6 15.2c-8.6 0-14.6-6.2-14.6-15.2s6.1-15.2 14.6-15.2m0-12c-16.2 0-27.7 11.6-27.7 27.2s11.5 27.2 27.7 27.2 27.7-11.6 27.7-27.2-11.5-27.2-27.7-27.2' fill='%23fff'/%3e%3cpath d='m87.2 12.9c8.5 0 14.6 6.2 14.6 15.2 0 1.7-.2 3.3-.6 4.8l-1.7-2.3h-13.6l8.3 11.1c-2 1-4.4 1.6-6.9 1.6-8.5 0-14.6-6.2-14.6-15.2-.1-8.9 6-15.2 14.5-15.2m0-12c-16.2 0-27.7 11.6-27.7 27.2s11.5 27.2 27.7 27.2c5.5 0 10.2-1.5 14.2-4.1l2.3 3.1h14.7l-8.3-11.2c2.9-4.2 4.6-9.1 4.6-15 .2-15.6-11.3-27.2-27.5-27.2' fill='%23ff9c66'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e" />
+						<span class="link-alt">INNOQ Homepage</span>
+				</a>
+				<a href="#" class="search-link">
+						<span class="icon icon-search icon--brand-white"></span>
+						<span class="link-alt">Suche</span>
+				</a>
+				<!--
+						NOTE: in order to ensure that users of assistive technologies can
+						easily find the content that is being collapsed and expanded, it is
+						important for the content to directly follow the toggle button in the
+						focus order on the page. When this doesn't match the visual design that
+						we are trying to achieve, we can change the visual order of the
+						elements with CSS.
+
+						See: https://inclusive-components.design/menus-menu-buttons/#ariacontrols
+				-->
+				<menu-toggle hidden>
+						<button>Menü</button>
+				</menu-toggle>
+				<!--
+						NOTE: for each `ul` list in the navbar, we should explicitly set
+						an `aria-label` that correctly describes the contents of the list to
+						provide this information to assistive technologies. Additionally, we
+						set the `role="list"` attribute to ensure that the lists will be
+						announced as lists in Safari/VoiceOver
+
+						See: https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html
+						and note in CSS file
+				-->
+				<ul class="navigation-links" role="list" aria-label="Seitennavigation">
+						<li>
+								<sub-menu>
+										<details>
+												<summary>
+														Leistungen
+														<span class="icon icon-chevron-down-filled icon--brand-white"></span>
+												</summary>
+												<ul role="list" aria-label="Leistungen Untermenü">
+														<li>
+																<a href="#">Strategie- und Technologieberatung</a>
+														</li>
+												</ul>
+										</details>
+								</sub-menu>
+						</li>
+						<li>
+								<a href="#">Success Stories</a>
+						</li>
+						<li>
+								<sub-menu>
+										<details>
+												<summary>
+														Kultur
+														<span class="icon icon-chevron-down-filled icon--brand-white"></span>
+												</summary>
+												<ul role="list" aria-label="Kultur Untermenü">
+														<li>
+																<!--
+																		NOTE: use `aria-current="page"` for the link within the
+																		navbar representing the current page. The CSS rules to
+																		visually highlight this link are hooked to that attribute.
+
+																		See: https://adrianroselli.com/2021/06/using-css-to-enforce-accessibility.html
+																		and note in CSS file
+																-->
+																<a href="#" aria-current="page">Wie wir zusammenarbeiten</a>
+														</li>
+														<li>
+																<a href="#">Was uns wichtig ist</a>
+														</li>
+														<li>
+																<a href="#">Arbeiten bei INNOQ</a>
+														</li>
+												</ul>
+										</details>
+								</sub-menu>
+						</li>
+						<li>
+								<sub-menu>
+										<details>
+												<summary>
+														Magazin
+														<span class="icon icon-chevron-down-filled icon--brand-white"></span>
+												</summary>
+												<ul role="list" aria-label="Magazin Untermenü">
+														<li>
+																<a href="#">Blog & Artikel</a>
+														</li>
+														<li>
+																<a href="#">Podcasts</a>
+														</li>
+														<li>
+																<a href="#">Vorträge</a>
+														</li>
+														<li>
+																<a href="#">Primer</a>
+														</li>
+												</ul>
+										</details>
+								</sub-menu>
+						</li>
+						<li>
+								<sub-menu>
+										<details>
+												<summary>
+														Trends
+														<span class="icon icon-chevron-down-filled icon--brand-white"></span>
+												</summary>
+												<ul role="list" aria-label="Trends Untermenü">
+														<li>
+																<a href="#">Accessibility</a>
+														</li>
+														<li>
+																<a href="#">Cloud Migration</a>
+														</li>
+														<li>
+																<a href="#">Data Mesh</a>
+														</li>
+												</ul>
+										</details>
+								</sub-menu>
+						</li>
+						<li>
+								<sub-menu>
+										<details>
+												<summary>
+														Schulungen
+														<span class="icon icon-chevron-down-filled icon--brand-white"></span>
+												</summary>
+												<ul role="list" aria-label="Schulungen Untermenü">
+														<li>
+																<a href="#">Warum Online-Schulungen?</a>
+														</li>
+														<li>
+																<a href="#">Softwarearchitektur Kickstart</a>
+														</li>
+														<li>
+																<a href="#">Data Mesh</a>
+														</li>
+														<li>
+																<a href="#">iSAQB CPSA-F Foundation Level</a>
+														</li>
+														<li>
+																<a href="#">Accessibility</a>
+														</li>
+														<li>
+																<a href="#">Blockchain</a>
+														</li>
+														<li>
+																<a href="#">Cloud Native Infrastruktur</a>
+														</li>
+														<li>
+																<a href="#">Cloud Migration</a>
+														</li>
+														<li>
+																<a href="#">Domain-driven Design</a>
+														</li>
+														<li>
+																<a href="#">DDD für Machine Learning</a>
+														</li>
+														<li>
+																<a href="#">Flexible Architekturen</a>
+														</li>
+														<li>
+																<a href="#">JavaScript</a>
+														</li>
+														<li>
+																<a href="#">Modernisierung</a>
+														</li>
+														<li>
+																<a href="#">Product Ownership</a>
+														</li>
+														<li>
+																<a href="#">Remote Mob Programming</a>
+														</li>
+														<li>
+																<a href="#">Software Analytics</a>
+														</li>
+														<li>
+																<a href="#">Web-Architekturen</a>
+														</li>
+														<li>
+																<a href="#">Web-Security</a>
+														</li>
+												</ul>
+										</details>
+								</sub-menu>
+						</li>
+				</ul>
+				<div class="navigation-meta">
+						<a href="#">
+								<span lang="ru" aria-label="Ви з України та розробляєте програмнi (software) продукти? Зв’язатися з нами.">💙💛</span>
+						</a>
+						<a href="#">Kontakt</a>
+						<ul role="list" aria-label="Verfügbare Sprachen">
+								<li>
+										<!--
+												NOTE: use the `aria-current="true"` attribute to specify the language
+												which is currently selected. As with `aria-current="page"`, setting
+												this attribute correctly is necessary to obtain the visual CSS styles.
+										-->
+										<a lang="de" href="#" title="Zu Deutsch wechseln" aria-label="Zu Deutsch wechseln" aria-current="true">de</a>
+								</li>
+								<li>
+										<a lang="de_CH" href="#" title="Zu Schweizerdeutsch wechseln" aria-label="Zu Schweizerdeutsch wechseln">ch</a>
+								</li>
+								<li>
+										<a lang="en" href="#" title="Switch to English" aria-label="Switch to English">en</a>
+								</li>
+						</ul>
+				</div>
+		</nav>
+		<a class="source-code-link" href="https://github.com/innoq/innoq-styleguide/">Source Code on GitHub</a>
+
+		<style>
+			/* stylelint-disable declaration-no-important */
+			/* stylelint-disable color-no-hex */
+			:root {
+				--overlay-standard-color: #979798;
+			}
+
+			@font-face {
+				font-display: swap;
+				font-family: FreightTextPro;
+				font-style: normal;
+				font-weight: bold;
+				src: url("https://www.innoq.com/assets/350ED6_0_unhinted_0.woff2?cachebuster=2") format("woff2");
+			}
+			@font-face {
+				font-display: swap;
+				font-family: FreightTextPro;
+				font-style: italic;
+				font-weight: normal;
+				src: url("https://www.innoq.com/assets/350ED6_1_unhinted_0.woff2?cachebuster=2") format("woff2");
+			}
+			@font-face {
+				font-display: swap;
+				font-family: FreightTextPro;
+				font-style: normal;
+				font-weight: normal;
+				src: url("https://www.innoq.com/assets/350ED6_2_unhinted_0.woff2?cachebuster=2") format("woff2");
+			}
+			@font-face {
+				font-display: swap;
+				font-family: FreightTextPro;
+				font-style: italic;
+				font-weight: bold;
+				src: url("https://www.innoq.com/assets/350ED6_3_unhinted_0.woff2?cachebuster=2") format("woff2");
+			}
+			@font-face {
+				font-display: swap;
+				font-family: FFMarkWebPro;
+				font-style: normal;
+				font-weight: normal;
+				src: url("https://www.innoq.com/assets/MarkPro-Book.woff2?cachebuster=2") format("woff2");
+			}
+			@font-face {
+				font-display: swap;
+				font-family: FFMarkWebPro;
+				font-style: normal;
+				font-weight: bold;
+				src: url("https://www.innoq.com/assets/MarkPro-Bold.woff2?cachebuster=2") format("woff2");
+			}
+			@font-face {
+				font-display: swap;
+				font-family: FFMarkWebPro;
+				font-style: normal;
+				font-weight: 800;
+				src: url("https://www.innoq.com/assets/MarkPro-Heavy.woff2?cachebuster=2") format("woff2");
+			}
+			@font-face {
+				font-display: swap;
+				font-family: HackRegular;
+				src: url("https://www.innoq.com/assets/hack-regular.woff2?cachebuster=2") format("woff2");
+			}
+			.main-navigation, .skip-link, .source-code-link {
+				font-family: "FFMarkWebPro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+				font-style: normal;
+				font-weight: normal;
+			}
+			.source-code-link {
+				display: block;
+				margin-top: 1rem;
+				margin-right: 1rem;
+				text-align: right;
+			}
+
+			* {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+			*, *::after, *::before {
+				-webkit-box-sizing: border-box;
+								box-sizing: border-box;
+			}
+
+			body {
+				background-color: #fff;
+				margin: 0;
+				color: #242424;
+			}
+
+			::-moz-selection {
+				background-color: rgba(255, 156, 102, 0.8);
+				color: #242424;
+			}
+
+			::selection {
+				background-color: rgba(255, 156, 102, 0.8);
+				color: #242424;
+			}
+
+			main {
+				min-height: 50vh;
+			}
+
+			html {
+				-webkit-hyphenate-character: "-";
+			}
+
+			.sr-only,
+			.main-navigation .link-alt,
+			.skip-link:not(:focus) {
+				position: absolute;
+				overflow: hidden;
+				width: 1px;
+				height: 1px;
+				padding: 0;
+				border: 0;
+				clip: rect(0, 0, 0, 0);
+				-webkit-clip-path: inset(50%);
+								clip-path: inset(50%);
+				white-space: nowrap;
+			}
+
+			.is-hidden {
+				display: none;
+			}
+
+			.icon {
+				display: -webkit-inline-box;
+				display: -ms-inline-flexbox;
+				display: inline-flex;
+				width: 1.44rem;
+				height: 1.44rem;
+				-ms-flex-item-align: center;
+						align-self: center;
+				background: #242424;
+				-webkit-mask-repeat: no-repeat;
+								mask-repeat: no-repeat;
+				-webkit-mask-size: contain;
+								mask-size: contain;
+			}
+
+			.icon--brand-white {
+				background: #fff;
+			}
+
+			.icon-chevron-down-filled {
+				-webkit-mask-image: url("data:image/svg+xml;charset=UTF-8,%3csvg id='Bold' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3ctitle%3earrow-button-down-2%3c/title%3e%3cpath d='M23.468,2.984a2,2,0,0,0-1.742-1.018H2.274A2,2,0,0,0,.563,5L10.289,21.07a2,2,0,0,0,3.422,0L23.437,5A2,2,0,0,0,23.468,2.984Z'/%3e%3c/svg%3e");
+								mask-image: url("data:image/svg+xml;charset=UTF-8,%3csvg id='Bold' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3ctitle%3earrow-button-down-2%3c/title%3e%3cpath d='M23.468,2.984a2,2,0,0,0-1.742-1.018H2.274A2,2,0,0,0,.563,5L10.289,21.07a2,2,0,0,0,3.422,0L23.437,5A2,2,0,0,0,23.468,2.984Z'/%3e%3c/svg%3e");
+			}
+
+			.icon-search {
+				-webkit-mask-image: url("data:image/svg+xml;charset=UTF-8,%3csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 24 24' style='enable-background:new 0 0 24 24;' xml:space='preserve'%3e%3cstyle type='text/css'%3e .st0%7bstroke:%23000000;stroke-miterlimit:10;%7d %3c/style%3e%3cg%3e%3cpath class='st0' d='M22.1,22.6c-0.1,0-0.2,0-0.3-0.1l-7.9-7.9c-1.4,1.2-3.1,1.9-5,1.9c-4.1,0-7.5-3.4-7.5-7.5s3.4-7.5,7.5-7.5 s7.5,3.4,7.5,7.5c0,1.8-0.7,3.6-1.9,5l7.9,7.9c0.1,0.1,0.1,0.2,0.1,0.3s0,0.2-0.1,0.3C22.4,22.5,22.3,22.6,22.1,22.6z M8.9,2.3 c-3.6,0-6.6,3-6.6,6.6s3,6.6,6.6,6.6s6.6-3,6.6-6.6S12.6,2.3,8.9,2.3z'/%3e%3c/g%3e%3c/svg%3e");
+								mask-image: url("data:image/svg+xml;charset=UTF-8,%3csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 24 24' style='enable-background:new 0 0 24 24;' xml:space='preserve'%3e%3cstyle type='text/css'%3e .st0%7bstroke:%23000000;stroke-miterlimit:10;%7d %3c/style%3e%3cg%3e%3cpath class='st0' d='M22.1,22.6c-0.1,0-0.2,0-0.3-0.1l-7.9-7.9c-1.4,1.2-3.1,1.9-5,1.9c-4.1,0-7.5-3.4-7.5-7.5s3.4-7.5,7.5-7.5 s7.5,3.4,7.5,7.5c0,1.8-0.7,3.6-1.9,5l7.9,7.9c0.1,0.1,0.1,0.2,0.1,0.3s0,0.2-0.1,0.3C22.4,22.5,22.3,22.6,22.1,22.6z M8.9,2.3 c-3.6,0-6.6,3-6.6,6.6s3,6.6,6.6,6.6s6.6-3,6.6-6.6S12.6,2.3,8.9,2.3z'/%3e%3c/g%3e%3c/svg%3e");
+			}
+
+			.main-navigation .navigation-links summary,
+			.main-navigation .navigation-links button, .main-navigation menu-toggle button, .main-navigation .navigation-meta a, .main-navigation .navigation-links a, .main-navigation .search-link, .main-navigation .brand-link, .skip-link {
+				display: inline-block;
+				margin: var(--forced-colors-action-margin);
+				color: #fff;
+				cursor: pointer;
+				-webkit-transition: color 0.175s ease;
+				transition: color 0.175s ease;
+			}
+			.main-navigation .navigation-links summary:hover,
+			.main-navigation .navigation-links button:hover, .main-navigation menu-toggle button:hover, .main-navigation .navigation-meta a:hover, .main-navigation .navigation-links a:hover, .main-navigation .search-link:hover, .main-navigation .brand-link:hover, .skip-link:hover, .main-navigation .navigation-links summary:focus,
+			.main-navigation .navigation-links button:focus, .main-navigation menu-toggle button:focus, .main-navigation .navigation-meta a:focus, .main-navigation .navigation-links a:focus, .main-navigation .search-link:focus, .main-navigation .brand-link:focus, .skip-link:focus {
+				color: #ff9c66;
+				-webkit-transition: color 0.175s ease;
+				transition: color 0.175s ease;
+			}
+			.main-navigation .navigation-links summary:hover .icon,
+			.main-navigation .navigation-links button:hover .icon, .main-navigation menu-toggle button:hover .icon, .main-navigation .navigation-meta a:hover .icon, .main-navigation .navigation-links a:hover .icon, .main-navigation .search-link:hover .icon, .main-navigation .brand-link:hover .icon, .skip-link:hover .icon, .main-navigation .navigation-links summary:focus .icon,
+			.main-navigation .navigation-links button:focus .icon, .main-navigation menu-toggle button:focus .icon, .main-navigation .navigation-meta a:focus .icon, .main-navigation .navigation-links a:focus .icon, .main-navigation .search-link:focus .icon, .main-navigation .brand-link:focus .icon, .skip-link:focus .icon {
+				background-color: #ff9c66;
+			}
+			.main-navigation .navigation-links summary:focus,
+			.main-navigation .navigation-links button:focus, .main-navigation menu-toggle button:focus, .main-navigation .navigation-meta a:focus, .main-navigation .navigation-links a:focus, .main-navigation .search-link:focus, .main-navigation .brand-link:focus, .skip-link:focus {
+				border-color: #ff9c66;
+				outline: 2px solid #00556d;
+			}
+			.main-navigation .navigation-links summary:focus-visible,
+			.main-navigation .navigation-links button:focus-visible, .main-navigation menu-toggle button:focus-visible, .main-navigation .navigation-meta a:focus-visible, .main-navigation .navigation-links a:focus-visible, .main-navigation .search-link:focus-visible, .main-navigation .brand-link:focus-visible, .skip-link:focus-visible {
+				border-color: #ff9c66;
+				outline: 2px solid #00556d;
+			}
+			.main-navigation .navigation-links summary:focus:not(:focus-visible),
+			.main-navigation .navigation-links button:focus:not(:focus-visible), .main-navigation menu-toggle button:focus:not(:focus-visible), .main-navigation .navigation-meta a:focus:not(:focus-visible), .main-navigation .navigation-links a:focus:not(:focus-visible), .main-navigation .search-link:focus:not(:focus-visible), .main-navigation .brand-link:focus:not(:focus-visible), .skip-link:focus:not(:focus-visible) {
+				border-color: transparent;
+				outline: none;
+			}
+
+			.main-navigation .navigation-meta a, .main-navigation .navigation-links a, .main-navigation .search-link, .main-navigation .brand-link, .skip-link {
+				border: var(--forced-colors-link-border-width, 2px) solid transparent;
+				-webkit-text-decoration: var(--forced-colors-link-decoration, none);
+								text-decoration: var(--forced-colors-link-decoration, none);
+			}
+
+			.main-navigation .navigation-links summary,
+			.main-navigation .navigation-links button, .main-navigation menu-toggle button {
+				border: 2px solid transparent;
+				background-color: transparent;
+			}
+
+			.skip-link {
+				display: block;
+				padding: 1.44rem;
+				margin-bottom: 2px;
+				background-color: #00556d;
+			}
+			.main-navigation {
+				--navbar-background-color: #004153;
+				display: grid;
+				background-color: var(--navbar-background-color);
+				grid-template-areas: "brand menu search" "nav nav nav" "meta meta meta";
+				grid-template-columns: 1fr auto auto;
+			}
+			@media (prefers-reduced-motion: no-preference) {
+				.main-navigation {
+					--grid-row-transition: grid-template-rows 0.525s ease-in-out;
+					--visibility-transition: visibility 0.525s ease-in-out;
+				}
+			}
+			@media (forced-colors: active) {
+				.main-navigation {
+					--forced-colors-link-border-width: 0;
+					--forced-colors-action-margin: 2px;
+					--forced-colors-link-decoration: underline;
+					--forced-colors-navbar-toggler-width: 10rem;
+				}
+				.main-navigation .link-alt {
+					all: revert;
+					text-align: left;
+				}
+			}
+			@media (pointer: fine) {
+				.main-navigation {
+					--pointer-fine-navbar-meta-font-size: 0.75rem;
+					--pointer-fine-navbar-meta-spacer: 0.2893518519rem;
+				}
+			}
+			.main-navigation--transparent {
+				--navbar-background-color: transparent;
+			}
+			.main-navigation ul {
+				padding: 0;
+			}
+			.main-navigation a:hover,
+			.main-navigation a:focus {
+				background-color: transparent;
+			}
+			.main-navigation ul[role=list],
+			.main-navigation ol[role=list] {
+				list-style: none;
+				list-style-type: none;
+			}
+			.main-navigation .brand-link {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+						-ms-flex-direction: column;
+								flex-direction: column;
+				padding: 1.44rem;
+				grid-area: brand;
+			}
+			.main-navigation .brand-link .brand-logo {
+				width: 6.80832rem;
+				height: 1.728rem;
+			}
+			.main-navigation .search-link {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: center;
+						-ms-flex-align: center;
+								align-items: center;
+				padding: 1.44rem;
+				grid-area: search;
+			}
+			.main-navigation .search-link .icon {
+				width: 1.44rem;
+				height: 1.44rem;
+			}
+			.main-navigation menu-toggle {
+				-webkit-box-align: center;
+						-ms-flex-align: center;
+								align-items: center;
+				grid-area: menu;
+			}
+			.main-navigation menu-toggle:not([hidden]) {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+			}
+			.main-navigation menu-toggle button {
+				padding: 1.44rem;
+				font-size: 1.3125rem;
+				font-weight: bold;
+			}
+			.main-navigation menu-toggle::after {
+				width: 0;
+				height: 1.44rem;
+				border: 1px solid #fff;
+				content: "";
+			}
+			.main-navigation .navigation-links {
+				background-color: #00556d;
+				font-size: 1.3125rem;
+				grid-area: nav;
+			}
+			.main-navigation .navigation-links > :first-child {
+				margin-top: 2.88rem;
+			}
+			.main-navigation .navigation-links > :last-child {
+				margin-bottom: 2.88rem;
+			}
+			.main-navigation .navigation-links a,
+			.main-navigation .navigation-links summary,
+			.main-navigation .navigation-links button {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: center;
+						-ms-flex-align: center;
+								align-items: center;
+				padding: 0.72rem 1.44rem;
+				background-color: transparent;
+			}
+			.main-navigation .navigation-links > li > a,
+			.main-navigation .navigation-links summary,
+			.main-navigation .navigation-links button {
+				font-size: 1.89rem;
+				font-weight: bold;
+			}
+			.main-navigation .navigation-links a[aria-current=page] {
+				text-decoration: underline;
+				text-decoration-color: #ff9c66;
+				text-decoration-thickness: 3px;
+				text-underline-offset: 0.5787037037rem;
+			}
+			.main-navigation .navigation-meta {
+				position: sticky;
+				bottom: 0;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: center;
+						-ms-flex-align: center;
+								align-items: center;
+				-ms-flex-pack: distribute;
+						justify-content: space-around;
+				padding: 0 1.44rem;
+				background-color: var(--navbar-background-color);
+				color: #fff;
+				font-size: var(--pointer-fine-navbar-meta-font-size, inherit);
+				grid-area: meta;
+				text-transform: uppercase;
+			}
+			.main-navigation .navigation-meta > * {
+				margin: 1.44rem 0;
+			}
+			.main-navigation .navigation-meta a {
+				padding: var(--pointer-fine-navbar-meta-spacer, 0.5787037037rem);
+			}
+			.main-navigation .navigation-meta a[aria-current=true] {
+				text-decoration: underline;
+				text-decoration-color: #ff9c66;
+				text-decoration-thickness: 2px;
+				text-underline-offset: 0.3348979767rem;
+			}
+			.main-navigation .navigation-meta ul {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+			}
+			.main-navigation .navigation-meta li {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: center;
+						-ms-flex-align: center;
+								align-items: center;
+			}
+			.main-navigation .navigation-meta li:not(:last-child)::after {
+				content: "|";
+			}
+			.main-navigation[data-expanded] {
+				grid-template-rows: var(--main-navigation-grid-template-rows);
+				-webkit-transition: var(--grid-row-transition);
+				transition: var(--grid-row-transition);
+			}
+			.main-navigation[data-expanded] .navigation-links,
+			.main-navigation[data-expanded] .navigation-meta {
+				overflow: hidden;
+				min-height: 0;
+				-webkit-transition: var(--visibility-transition);
+				transition: var(--visibility-transition);
+				visibility: var(--main-navigation-menu-visibility);
+			}
+			.main-navigation[data-expanded=true] {
+				--main-navigation-grid-template-rows: min-content 1fr min-content;
+				--main-navigation-menu-visibility: visibility;
+			}
+			.main-navigation[data-expanded=false] {
+				--main-navigation-grid-template-rows: min-content 0fr 0fr;
+				--main-navigation-menu-visibility: hidden;
+			}
+			.main-navigation sub-menu {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+						-ms-flex-direction: column;
+								flex-direction: column;
+			}
+			.main-navigation sub-menu .icon {
+				width: 0.5787037037rem;
+				height: 0.5787037037rem;
+				margin-left: auto;
+				-webkit-transform: rotate(-90deg);
+								transform: rotate(-90deg);
+				-webkit-transition: all 0.175s ease-in-out;
+				transition: all 0.175s ease-in-out;
+			}
+			.main-navigation sub-menu .icon:hover, .main-navigation sub-menu .icon:focus {
+				background: #ff9c66;
+			}
+			.main-navigation sub-menu details[open] .icon,
+			.main-navigation sub-menu [aria-expanded=true] .icon {
+				-webkit-transform: rotate(0);
+								transform: rotate(0);
+			}
+			.main-navigation sub-menu div {
+				display: grid;
+				overflow: hidden;
+				grid-template-rows: var(--submenu-grid-template-rows);
+				-webkit-transition: var(--grid-row-transition);
+				transition: var(--grid-row-transition);
+			}
+			.main-navigation sub-menu ul {
+				min-height: 0;
+				margin-bottom: 0.5787037037rem;
+				-webkit-transition: var(--visibility-transition);
+				transition: var(--visibility-transition);
+				visibility: var(--submenu-visibility);
+			}
+			.main-navigation sub-menu [aria-expanded=false] + div {
+				--submenu-grid-template-rows: 0fr;
+				--submenu-visibility: hidden;
+			}
+			.main-navigation sub-menu [aria-expanded=true] + div {
+				--submenu-grid-template-rows: 1fr;
+				--submenu-visibility: visible;
+			}
+			@media (min-width: 25rem) {
+				.main-navigation .navigation-meta {
+					-webkit-box-pack: center;
+							-ms-flex-pack: center;
+									justify-content: center;
+					gap: 1rem;
+				}
+			}
+			@media (min-width: 925px) {
+				.main-navigation {
+					--navbar-toggler-width: var(--forced-colors-navbar-toggler-width, calc((2px * 2) + (1.44rem * 3)));
+					grid-template-areas: ". . brand meta search" "nav nav nav nav nav";
+					grid-template-columns: var(--navbar-toggler-width) 1fr 1fr 1fr var(--navbar-toggler-width);
+				}
+				.main-navigation .brand-link {
+					-webkit-box-align: center;
+							-ms-flex-align: center;
+									align-items: center;
+				}
+				.main-navigation menu-toggle:not([hidden]) {
+					display: none;
+				}
+				.main-navigation .navigation-links {
+					display: -webkit-box;
+					display: -ms-flexbox;
+					display: flex;
+					-webkit-box-pack: center;
+							-ms-flex-pack: center;
+									justify-content: center;
+					padding: 0 0.72rem;
+					background-color: var(--navbar-background-color);
+				}
+				.main-navigation .navigation-links a {
+					white-space: nowrap;
+				}
+				.main-navigation .navigation-links > li > a,
+				.main-navigation .navigation-links summary,
+				.main-navigation .navigation-links button {
+					padding: 1.44rem 0.72rem;
+					font-size: 1.3125rem;
+				}
+				.main-navigation .navigation-links > :first-child {
+					margin-top: 0;
+				}
+				.main-navigation .navigation-links > :last-child {
+					--submenu-position-right: 0;
+					margin-bottom: 0;
+				}
+				.main-navigation .navigation-meta {
+					display: -webkit-box;
+					display: -ms-flexbox;
+					display: flex;
+					-webkit-box-pack: end;
+							-ms-flex-pack: end;
+									justify-content: flex-end;
+					padding: 0;
+				}
+				.main-navigation[data-expanded] .navigation-links,
+				.main-navigation[data-expanded] .navigation-meta {
+					overflow: visible;
+					min-height: auto;
+					visibility: visible;
+				}
+				.main-navigation sub-menu {
+					position: relative;
+					display: grid;
+					grid-template-areas: "button ." "menu menu";
+				}
+				.main-navigation sub-menu > button {
+					grid-area: button;
+				}
+				.main-navigation sub-menu > div {
+					grid-area: menu;
+				}
+				.main-navigation sub-menu .icon {
+					margin-left: 0.5787037037rem;
+					-webkit-transform: rotate(0deg);
+									transform: rotate(0deg);
+				}
+				.main-navigation sub-menu details[open],
+				.main-navigation sub-menu ul {
+					margin-bottom: 0;
+				}
+				.main-navigation sub-menu li:first-child {
+					margin-top: 0.72rem;
+				}
+				.main-navigation sub-menu li:last-child {
+					margin-bottom: 0.72rem;
+				}
+				.main-navigation sub-menu details > ul,
+				.main-navigation sub-menu > div {
+					position: absolute;
+					z-index: 1;
+					right: var(--submenu-position-right);
+					background-color: #00556d;
+					-webkit-box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+									box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+				}
+				.main-navigation sub-menu [aria-expanded=true] + div {
+					z-index: 2;
+				}
+				.main-navigation sub-menu:hover {
+					z-index: 3;
+					/* stylelint-disable-next-line max-nesting-depth */
+				}
+				.main-navigation sub-menu:hover > div {
+					--submenu-visibility: visible;
+					--submenu-grid-template-rows: 1fr;
+				}
+			}
+			@media (min-width: 90.25rem) {
+				.main-navigation {
+					grid-template-areas: ". . . brand meta search ." ". . nav nav nav . .";
+					grid-template-columns: 1fr var(--navbar-toggler-width) calc((90.25rem - 10rem - var(--navbar-toggler-width) * 2) * 0.5) 10rem calc((90.25rem - 10rem - var(--navbar-toggler-width) * 2) * 0.5) var(--navbar-toggler-width) 1fr;
+				}
+				.main-navigation .navigation-links {
+					gap: 1.44rem;
+				}
+			}
+		</style>
+		<script>
+			class Submenu extends HTMLElement {
+				connectedCallback() {
+					let summary = this.querySelector('summary');
+					let ul = this.querySelector('ul');
+					if (!summary && !ul) {
+						return
+					}
+
+					// With out method of animating the collapsing/expanding of the menu, it is
+					// necessary to wrap the content of the menu in a `<div>`
+					this.innerHTML = `<button type="button" aria-expanded="false">${summary.innerHTML}</button><div>${ul.outerHTML}</div>`;
+					this.button.addEventListener('click', () => this.toggle());
+
+					this.navigation.addEventListener('submenu-toggle', (ev) => {
+						if (ev.detail && ev.detail.expanded && ev.target !== this.button) {
+							if (this.button.getAttribute('aria-expanded') === 'true') {
+								this.toggle(false);
+							}
+						}
+					});
+					this.toggle(false);
+				}
+
+				toggle(expanded = !(this.button.getAttribute('aria-expanded') === 'true')) {
+					let button = this.button;
+					button.setAttribute('aria-expanded', expanded);
+					button.dispatchEvent(new CustomEvent('submenu-toggle', { detail: { expanded }, bubbles: true }));
+				}
+
+				get navigation() {
+					return this.closest('ul')
+				}
+
+				get button() {
+					return this.querySelector('button')
+				}
+
+				get div() {
+					return this.querySelector('div')
+				}
+
+				get ul() {
+					return this.querySelector('ul')
+				}
+			}
+
+			class MenuToggle extends HTMLElement {
+				connectedCallback() {
+					if (!this.button) {
+						return
+					}
+
+					this.hidden = false;
+					this.button.type = 'button';
+					this.button.addEventListener('click', () => this.toggle());
+					this.toggle(false);
+				}
+
+				toggle(expanded = !(this.button.getAttribute('aria-expanded') === 'true')) {
+					let button = this.button;
+					button.setAttribute('aria-expanded', expanded);
+					this.navbar.setAttribute('data-expanded', expanded);
+				}
+
+				get button() {
+					return this.querySelector('button')
+				}
+
+				get navbar() {
+					return this.closest('nav')
+				}
+			}
+
+			if (new URLSearchParams(window.location.search).get("noscript") == null) {
+				customElements.define('sub-menu', Submenu);
+				customElements.define('menu-toggle', MenuToggle);
+			}
+		</script>
+		<script>
+			if (new URLSearchParams(window.location.search).get("nostyle") !== null) {
+				let style = document.body.querySelector("style");
+				style.remove();
+			}
+		</script>
+	</body>
+</html>

@@ -5,12 +5,15 @@
 	--spacer-base: 1.25rem;
 	--spacer-md: 2rem;
 	--spacer-lg: 3.25rem;
+	--container-width: 70ch;
+
+	font-size: 1.25rem;
 }
 
 body {
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 	margin: auto;
-	max-width: 70ch;
+	max-width: var(--container-width);
 	padding: var(--spacer-sm);
 
 	line-height: 1.75;
@@ -56,4 +59,9 @@ a + button {
 	position: absolute;
 	white-space: nowrap;
 	width: 1px;
+}
+
+iframe {
+	width: 100%;
+	min-height: 15rem;
 }

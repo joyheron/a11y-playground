@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>How to not Fail at Building Accessible Web Applications</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description"
+			content="My thoughts on how to build accessible web apps.">
+		<link href="joy.css" rel="stylesheet">
+		<link href="slides.css" rel="stylesheet">
+		<script defer src="slides.js"></script>
+	</head>
+	<body>
+		<main>
+			<section>
+				<h1>How to not Fail at Building Accessible Web Applications</h1>
+				<address>By <a rel="author" href="https://joyheron.com/">Joy Heron</a></address>
+			</section>
+			<section>
+				<h2>Get to know your users</h2>
+				<ul role="list" class="possible-users">
+					<li><div class="emoji">👩🏻‍🦯</div> Users with visual impairments</li>
+					<li><div class="emoji">😩</div> Users with cognitive limitations</li>
+					<li><div class="emoji">🧏🏿</div> Users with auditory impairments</li>
+					<li><div class="emoji">🎨</div> Users with different color perceptions</li>
+					<li><div class="emoji">🏎️</div> Users with epilepsy or motion sickness</li>
+					<li><div class="emoji">⌨️</div> Users with physical impairments</li>
+				</ul>
+				<style>
+					.possible-users {
+						display: grid;
+						grid-template-columns: repeat(6, 1fr);
+						gap: var(--spacer-base);
+						padding: 0;
+					}
+					.possible-users > * {
+						display: grid;
+						grid-column: span 2;
+						aspect-ratio: 1 / 1;
+						place-items: center;
+						text-align: center;
+						border: 1px solid black;
+						margin-top: 0;
+						padding: var(--spacer-sm)
+					}
+					/* .possible-users > :nth-child(4) {
+						grid-column: 2 / 4;
+					} */
+					.possible-users .emoji {
+						display: block;
+						font-size: 5em;
+						line-height: 1;
+					}
+				</style>
+			</section>
+			<section>
+				<h2>Begin by building <em>and testing</em> the HTML layer</h2>
+			</section>
+			<section>
+				<h3>Consider multiple possible semantic HTML layers which would work as a base</h3>
+				<iframe src="navbar.html"></iframe>
+				<p>Document your thoughts as you go!</p>
+			</section>
+			<section>
+				<h3>Example: HTML-only Navbar</h3>
+				<iframe src="navbar-example.html?nostyle&noscript"></iframe>
+				<p>Details elements are a great HTML-only fallback!</p>
+			</section>
+			<section>
+				<h3>Add <a href="https://webaim.org/techniques/skipnav/">skip links</a> to improve navigation for keyboard users</h3>
+			</section>
+			<section>
+				<h3>Add a few choice ARIA attributes to improve the accessibility of your markup</h3>
+				<ul>
+					<li>Add a descriptive <code>aria-label</code> to each <code>ul</code> unordered list</li>
+					<li>Indicate link to current page with <code>aria-current="page"</code></li>
+					<li>Add <code>role="list"</code> to all lists where we are going to change the <code>display</code> property with CSS
+						(See <a href="https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html">Article on "Fixing Lists" by Scott O'Hara</a>)
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Add a CSS layer to implement the design</h2>
+			</section>
+			<section>
+				<h3>Use a <a href="https://webaim.org/resources/contrastchecker/">color contrast checker</a> to ensure that all color combinations pass at least the WCAG 2.0 AA level</h3>
+			</section>
+			<section>
+				<h3>Example: Navbar with only HTML and CSS</h3>
+				<!-- TODO: Mobile Version -->
+
+				<div class="frame-wrapper">
+					<iframe class="mobile" src="navbar-example.html?noscript"></iframe>
+					<iframe class="desktop" src="navbar-example.html?noscript"></iframe>
+				</div>
+
+				<style>
+					.frame-wrapper {
+						display: flex;
+						gap: var(--spacer-sm);
+						min-height: 30rem;
+						overflow: auto;
+						margin: 0 calc(-1 * (80vw - var(--container-width)) / 2);
+					}
+					.frame-wrapper .mobile {
+						min-width: 20rem;
+						max-width: 30rem;
+					}
+					.frame-wrapper .desktop {
+						min-width: 925px;
+					}
+				</style>
+			</section>
+			<section>
+				<h2>Add JavaScript to improve the design</h2>
+			</section>
+			<section>
+				<h3>Example: Navbar with only HTML and CSS</h3>
+				<!-- TODO: Mobile Version -->
+				<div class="frame-wrapper">
+					<iframe class="mobile" src="navbar-example.html"></iframe>
+					<iframe class="desktop" src="navbar-example.html"></iframe>
+				</div>
+			</section>
+		</main>
+	</body>
+</html>

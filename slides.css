@@ -1,0 +1,31 @@
+.slides {
+	max-width: unset;
+	padding: 0;
+	/* overflow: hidden; */
+	font-size: clamp(1rem, 2vw, 3.5rem);
+}
+
+.slides > main {
+	display: flex;
+	overflow: auto;
+	min-height: 100vh;
+	align-items: center;
+	scroll-snap-type: x mandatory;
+}
+
+.slides > main > * {
+	min-width: 100vw;
+	text-align: center;
+	scroll-snap-align: start;
+	box-sizing: border-box;
+	padding: var(--spacer-sm) calc((100vw - var(--container-width)) / 2);
+	overflow: auto;
+}
+
+.slides ul:not([role=list]) {
+	text-align: left;
+}
+
+.slides iframe {
+	height: min(50vh, 45rem);
+}
