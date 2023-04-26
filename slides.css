@@ -23,9 +23,27 @@
 }
 
 .slides ul:not([role=list]) {
+	max-width: max-content;
+	margin: auto;
+}
+
+.slides ul:not([role=list]),
+.slides table,
+.slides pre {
 	text-align: left;
 }
 
 .slides iframe {
 	height: min(50vh, 45rem);
+}
+
+body:not(.slides) section + section {
+	margin-top: var(--spacer-md);
+}
+body:not(.slides) .presentation-only {
+	display: none;
+}
+
+.slides .site-only {
+	display: none;
 }

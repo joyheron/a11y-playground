@@ -5,7 +5,6 @@ function slidesActivated() {
 function initializeSlides() {
 	document.body.classList.add("slides");
 	let main = document.querySelector("main");
-	// main.classList.add("show-slides");
 	main.querySelectorAll("main > section").forEach((e, i) => {
 		initializeSlide(e, i);
 	});

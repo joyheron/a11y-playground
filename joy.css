@@ -65,3 +65,7 @@ iframe {
 	width: 100%;
 	min-height: 15rem;
 }
+
+th, td {
+	padding: var(--spacer-sm);
+}

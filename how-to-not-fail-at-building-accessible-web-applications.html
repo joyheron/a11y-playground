@@ -7,14 +7,49 @@
 		<meta name="description"
 			content="My thoughts on how to build accessible web apps.">
 		<link href="joy.css" rel="stylesheet">
+		<link href="innoq-fonts.css" rel="stylesheet">
+		<link href="prism-theme.css" rel="stylesheet">
 		<link href="slides.css" rel="stylesheet">
+		<style>
+			body {
+				font-family:  "FFMarkWebPro", "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;;
+			}
+			body:not(.slides) h2 {
+				margin-top: var(--spacer-lg);
+			}
+			.slides {
+				--container-width: 55ch;
+			}
+			pre {
+				padding: var(--spacer-sm);
+				margin: 0 calc(-1 * var(--spacer-sm));
+				overflow: auto;
+				max-height: 55rem;
+			}
+			section {
+				container-type: inline-size;
+			}
+			@media (min-width: calc(80ch + 0.75rem * 2)) {
+				pre {
+					padding: var(--spacer-base);
+					margin: 0 calc(-1 * var(--spacer-base));
+				}
+			}
+			.responsive-table {
+				overflow: auto;
+			}
+		</style>
 		<script defer src="slides.js"></script>
+		<script defer src="https://unpkg.com/prismjs@1.15.0/prism.js"></script>
 	</head>
 	<body>
 		<main>
 			<section>
 				<h1>How to not Fail at Building Accessible Web Applications</h1>
 				<address>By <a rel="author" href="https://joyheron.com/">Joy Heron</a></address>
+				<p class="site-only">
+					This site is also available as a <a href="./how-to-not-fail-at-building-accessible-web-applications.html?slides">slideshow</a>.
+				</p>
 			</section>
 			<section>
 				<h2>Get to know your users</h2>
@@ -25,31 +60,39 @@
 					<li><div class="emoji">🎨</div> Users with different color perceptions</li>
 					<li><div class="emoji">🏎️</div> Users with epilepsy or motion sickness</li>
 					<li><div class="emoji">⌨️</div> Users with physical impairments</li>
+					<li><div class="emoji">📱</div> Users who cannot afford expensive hardware</li>
 				</ul>
 				<style>
 					.possible-users {
 						display: grid;
-						grid-template-columns: repeat(6, 1fr);
+						grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
 						gap: var(--spacer-base);
 						padding: 0;
+						line-height: 1.25;
 					}
 					.possible-users > * {
 						display: grid;
 						grid-column: span 2;
-						aspect-ratio: 1 / 1;
 						place-items: center;
 						text-align: center;
 						border: 1px solid black;
 						margin-top: 0;
-						padding: var(--spacer-sm)
+						padding: 0.75em;
 					}
-					/* .possible-users > :nth-child(4) {
-						grid-column: 2 / 4;
-					} */
+
 					.possible-users .emoji {
 						display: block;
 						font-size: 5em;
 						line-height: 1;
+					}
+
+					@container (min-width: 30rem) {
+						.possible-users {
+							grid-template-columns: repeat(8, 1fr);
+						}
+						.possible-users > :nth-child(5) {
+							grid-column: 2 / 4;
+						}
 					}
 				</style>
 			</section>
@@ -64,7 +107,7 @@
 			<section>
 				<h3>Example: HTML-only Navbar</h3>
 				<iframe src="navbar-example.html?nostyle&noscript"></iframe>
-				<p>Details elements are a great HTML-only fallback!</p>
+				<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code>&lt;details&gt;</code></a> elements are a great HTML-only fallback!</p>
 			</section>
 			<section>
 				<h3>Add <a href="https://webaim.org/techniques/skipnav/">skip links</a> to improve navigation for keyboard users</h3>
@@ -75,7 +118,7 @@
 					<li>Add a descriptive <code>aria-label</code> to each <code>ul</code> unordered list</li>
 					<li>Indicate link to current page with <code>aria-current="page"</code></li>
 					<li>Add <code>role="list"</code> to all lists where we are going to change the <code>display</code> property with CSS
-						(See <a href="https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html">Article on "Fixing Lists" by Scott O'Hara</a>)
+						(See <a href="https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html">Blog Post on "Fixing Lists" by Scott O'Hara</a>)
 					</li>
 				</ul>
 			</section>
@@ -83,11 +126,85 @@
 				<h2>Add a CSS layer to implement the design</h2>
 			</section>
 			<section>
+				<h2>Style skip links so that they are hidden except when focused</h2>
+<pre class="language-css" aria-label="CSS Code to style a skip link"><code>.skip-link {
+	/* ...styles for skip link... */
+
+	&:not(:focus) {
+		@extend %sr-only;
+	}
+}</code></pre>
+			</section>
+			<section>
+				<h3>Connect CSS rules to ARIA attributes to ensure HTML is correct</h3>
+<pre class="language-css" aria-label="CSS Code used to enforce the accessibility of the current link in the HTML markup"><code>/* Use CSS rules to enforce the accessibility of the current link
+within the navbar. If it is visually correct, it will also be
+semantically correct. */
+a[aria-current='page'] {
+	text-decoration: underline;
+	text-decoration-color: $active-color;
+	text-decoration-thickness: 3px;
+	text-underline-offset: $spacer-xs;
+}
+</code></pre>
+				<p>See <a href="https://adrianroselli.com/2021/06/using-css-to-enforce-accessibility.html">Blog Post on "Using CSS to Enforce Accessibility" by Adrian Roselli</a></p>
+			</section>
+			<section>
+				<h3>Add rule only removing list styles when we have added a <code>role</code> attribute to a list</h3>
+<pre class="language-css" aria-label="CSS code to remove list styles from an HTML list with the role attribute"><code>/* Removing `list-style` attributes causes the list to no longer
+appear as a list in the accessibility tree. As a workaround, this
+only removes the list styling once the ARIA `role="list"` has
+been set to reinstate the list semantics for the list. */
+ul[role='list'],
+ol[role='list'] {
+	list-style: none;
+	list-style-type: none;
+}</code></pre>
+				<p>(See <a href="https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html">Blog Post on "Fixing Lists" by Scott O'Hara</a>)</p>
+			</section>
+			<section>
+				<h3>Define CSS properties to tweak the theme based on CSS media features</h3>
+<pre class="language-css" aria-label="CSS code defining CSS properties based on CSS media features"><code>@media (prefers-reduced-motion: no-preference) {
+	--grid-row-transition: grid-template-rows #{$transition-speed} #{$transition-easing};
+	--visibility-transition: visibility #{$transition-speed} #{$transition-easing};
+}
+
+@media (forced-colors: active) {
+	--forced-colors-link-border-width: 0;
+	--forced-colors-action-margin: #{$navbar-focus-outline-width};
+	--forced-colors-link-decoration: underline;
+	--forced-colors-navbar-toggler-width: 10rem;
+}
+
+@media (pointer: fine) {
+	--pointer-fine-navbar-meta-font-size: #{$small-font-size};
+	--pointer-fine-navbar-meta-spacer: #{$spacer-xs * 0.5};
+}
+</code></pre>
+			</section>
+			<section>
+				<h3>Use defined CSS properties instead of hard coded values</h3>
+<pre class="language-css" aria-label="CSS code defining CSS properties based on CSS media features"><code>&[data-expanded] {
+	grid-template-rows: var(--main-navigation-grid-template-rows);
+	transition: var(--grid-row-transition);
+
+	.navigation-links,
+	.navigation-meta {
+		overflow: hidden;
+		min-height: 0;
+		transition: var(--visibility-transition);
+		visibility: var(--main-navigation-menu-visibility);
+	}
+}
+</code></pre>
+				<p><em>Note that it is <strong>finally</strong> possible to animate <code>height: auto;</code> by animating the <code>grid-template-rows</code> property!
+					<br>(See <a href="https://nemzes.net/posts/animating-height-auto/">Blog Post on "Animating height: auto" by Nelson Menezes</a>)</em></p>
+			</section>
+			<section>
 				<h3>Use a <a href="https://webaim.org/resources/contrastchecker/">color contrast checker</a> to ensure that all color combinations pass at least the WCAG 2.0 AA level</h3>
 			</section>
 			<section>
 				<h3>Example: Navbar with only HTML and CSS</h3>
-				<!-- TODO: Mobile Version -->
 
 				<div class="frame-wrapper">
 					<iframe class="mobile" src="navbar-example.html?noscript"></iframe>
@@ -100,7 +217,6 @@
 						gap: var(--spacer-sm);
 						min-height: 30rem;
 						overflow: auto;
-						margin: 0 calc(-1 * (80vw - var(--container-width)) / 2);
 					}
 					.frame-wrapper .mobile {
 						min-width: 20rem;
@@ -109,18 +225,195 @@
 					.frame-wrapper .desktop {
 						min-width: 925px;
 					}
+					@media (min-width: calc(80ch + 0.75rem * 2)) {
+						.frame-wrapper {
+							margin: 0 calc(-1 * (80vw - var(--container-width)) / 2);
+						}
+					}
 				</style>
 			</section>
 			<section>
 				<h2>Add JavaScript to improve the design</h2>
 			</section>
 			<section>
-				<h3>Example: Navbar with only HTML and CSS</h3>
-				<!-- TODO: Mobile Version -->
+				<h3>Progressively-enhance <code>&lt;details&gt;</code> elements to become a toggle button using <code>aria-expanded</code></h3>
+<pre class="language-javascript" aria-label="JavaScript Code to progressively enhance details element"><code>export default class Submenu extends HTMLElement {
+	connectedCallback() {
+		let summary = this.querySelector('summary')
+		let ul = this.querySelector('ul')
+		if (!summary && !ul) {
+			return
+		}
+
+		// With our method of animating the collapsing/expanding of
+		// the menu, it is necessary to wrap the content of the menu
+		// in a `&lt;div&gt;`
+		this.innerHTML = `&lt;button type="button" aria-expanded="false"&gt;${summary.innerHTML}&lt;/button&gt;&lt;div&gt;${ul.outerHTML}&lt;/div&gt;`
+		this.button.addEventListener('click', () => this.toggle())
+
+		this.navigation.addEventListener('submenu-toggle', (ev) => {
+			if (ev.detail && ev.detail.expanded &&
+					ev.target !== this.button) {
+				if (this.button.getAttribute('aria-expanded') === 'true') {
+					this.toggle(false)
+				}
+			}
+		})
+		this.toggle(false)
+	}
+
+	toggle(expanded = !(this.button.getAttribute('aria-expanded') === 'true')) {
+		let button = this.button
+		button.setAttribute('aria-expanded', expanded)
+		button.dispatchEvent(new CustomEvent('submenu-toggle', { detail: { expanded }, bubbles: true }))
+	}
+
+	get navigation() {
+		return this.closest('ul')
+	}
+
+	get button() {
+		return this.querySelector('button')
+	}
+
+	get div() {
+		return this.querySelector('div')
+	}
+
+	get ul() {
+		return this.querySelector('ul')
+	}
+}
+customElements.define('sub-menu', Submenu);</code></pre>
+			</section>
+			<section>
+				<h3>Hook CSS styles for showing/hiding the menu to the <code>aria-expanded</code> attribute</h3>
+				<p>This ensure that the attribute is correctly defined on the <em><strong>button</strong></em></p>
+<pre class="language-css" aria-label="CSS Code for expanding/collapsing submenu"><code>sub-menu {
+	div {
+		display: grid;
+		overflow: hidden;
+		grid-template-rows: var(--submenu-grid-template-rows);
+		transition: var(--grid-row-transition);
+	}
+
+	ul {
+		min-height: 0;
+		margin-bottom: $spacer-xs;
+		transition: var(--visibility-transition);
+		visibility: var(--submenu-visibility);
+	}
+
+	button[aria-expanded='false'] + div {
+		--submenu-grid-template-rows: 0fr;
+		--submenu-visibility: hidden;
+	}
+
+	button[aria-expanded='true'] + div {
+		--submenu-grid-template-rows: 1fr;
+		--submenu-visibility: visible;
+	}
+}
+</code></pre>
+			</section>
+			<section>
+				<h3>Example: Navbar with HTML, CSS and JavaScript</h3>
 				<div class="frame-wrapper">
 					<iframe class="mobile" src="navbar-example.html"></iframe>
 					<iframe class="desktop" src="navbar-example.html"></iframe>
 				</div>
+			</section>
+			<section>
+				<h3>When else may I need JavaScript?</h3>
+			</section>
+			<section>
+				<h4>If something changes on page, it is necessary to <em>announce</em> this to the user</h4>
+
+				<ul>
+					<li>
+						Create an HTML element with <code>role="status"</code> and <code>aria-live="polite"</code>
+						and update it to announce changes for assistive technologies.
+					</li>
+					<li>
+						it's usually necessary for the element to already exist before its content is changed in order for
+						its content to be announced
+					</li>
+					<li>
+						<strong>🔥 Tip:</strong> integrate area for announcements into the visual design to help all users,
+						not only users of assistive technology
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h4>Know your widgets</h4>
+
+				<div class="responsive-table">
+					<table>
+						<thead>
+							<tr>
+								<th>Widget</th>
+								<th>Pay attention to...</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Disclosure Widget</td>
+								<td><code>aria-expanded</code> is an attribute on the <em>button</em></td>
+							</tr>
+							<tr>
+								<td>
+									<a href="https://inclusive-components.design/tabbed-interfaces/">Tabbed Interfaces</a></td>
+								<td>
+									It shouldn't look like tabs unless it behaves like tabs. Tab selection should occur by
+									<em>arrow keys</em> not the TAB-key. (Most tab components don't do this correctly)
+								</td>
+							</tr>
+							<tr>
+								<td>Dialogs</td>
+								<td>
+									Need to implement focus trapping and make sure ESC-key shuts the dialog
+									(usually the user also wants to close it by clicking outside of the dialog).
+									It's also <strong>critical</strong> that there is a focussable close button within the dialog.
+									<strong>Use <code>&lt;dialog&gt;</code> element.</strong>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/listbox_role">Listboxes</a>
+								</td>
+								<td>
+									Options in list should be able to be selected with arrow keys
+									(prefer using a built-in <code>&lt;select&gt;</code>)
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+			<section>
+				<h4><a href="https://www.w3.org/TR/using-aria/#firstrule">First rule of ARIA</a></h4>
+				<blockquote>
+					If you <em>can</em> use a native HTML element or attribute with the semantics and behavior you require
+					<strong>already built in</strong>, instead of re-purposing an element and adding an ARIA role, state
+					or property to make it accessible, <strong>then do so.</strong>
+				</blockquote>
+			</section>
+			<section class="presentation-only">
+				<h2>Summary</h2>
+				<ul>
+					<li>HTML to make it work</li>
+					<li>CSS to make it pretty</li>
+					<li>JS to make it better</li>
+				</ul>
+			</section>
+			<section class="presentation-only">
+				<p><strong>Thank you!</strong></p>
+				<p>
+					The content of this presentation is also available as a
+					<a href="./how-to-not-fail-at-building-accessible-web-applications.html" target="_blank">
+						microsite.
+					</a>
+				</p>
 			</section>
 		</main>
 	</body>
