@@ -38,6 +38,9 @@
 			.responsive-table {
 				overflow: auto;
 			}
+			td {
+				font-size: 0.9em;
+			}
 		</style>
 		<script defer src="slides.js"></script>
 		<script defer src="https://unpkg.com/prismjs@1.15.0/prism.js"></script>
@@ -93,6 +96,13 @@
 						.possible-users > :nth-child(5) {
 							grid-column: 2 / 4;
 						}
+					}
+					code {
+						background-color: #e4e4e4;
+						padding: var(--spacer-xs);
+					}
+					pre code {
+						background-color: unset;
 					}
 				</style>
 			</section>
@@ -199,6 +209,32 @@ ol[role='list'] {
 </code></pre>
 				<p><em>Note that it is <strong>finally</strong> possible to animate <code>height: auto;</code> by animating the <code>grid-template-rows</code> property!
 					<br>(See <a href="https://nemzes.net/posts/animating-height-auto/">Blog Post on "Animating height: auto" by Nelson Menezes</a>)</em></p>
+			</section>
+			<section>
+				<h3>Important Media Queries</h3>
+				<ul>
+					<li>
+						<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion">
+							<strong><code>prefers-reduced-motion</code></strong></a> &mdash;
+							<strong>ALWAYS</strong> reduce motion when a user requests it to prevent possible
+						epileptic event or motion sickness 🏎️
+					</li>
+					<li>
+						<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors">
+							<strong><code>forced-colors</code></strong></a>,
+						<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast">
+							<strong><code>prefers-contrast</code></strong></a>, and
+						<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme">
+							<strong><code>prefers-color-scheme</code></strong>
+						</a> indicate different user color needs 🎨
+					</li>
+					<li>
+						<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer">
+							<strong><code>pointer</code></strong></a> and
+						<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover">
+							<strong><code>hover</code></strong></a> can indicate usage of mobile devices 📱
+					</li>
+				</ul>
 			</section>
 			<section>
 				<h3>Use a <a href="https://webaim.org/resources/contrastchecker/">color contrast checker</a> to ensure that all color combinations pass at least the WCAG 2.0 AA level</h3>
@@ -398,13 +434,101 @@ customElements.define('sub-menu', Submenu);</code></pre>
 					or property to make it accessible, <strong>then do so.</strong>
 				</blockquote>
 			</section>
-			<section class="presentation-only">
-				<h2>Summary</h2>
-				<ul>
-					<li>HTML to make it work</li>
-					<li>CSS to make it pretty</li>
-					<li>JS to make it better</li>
-				</ul>
+			<section>
+				<h2>Accessibility Evalutation Tooling</h2>
+				<figure>
+					<blockquote cite="https://webaim.org/projects/million/">
+						96.3% of home pages had detected <a href="https://webaim.org/standards/wcag/checklist">WCAG 2</a> failures!
+						This improved very slightly from 96.8% in 2022. Over the last 4 years, the pages with detectable WCAG
+						failures has decreased by only 1.5% from 97.8%. These are only automatically detected errors that align
+						with WCAG conformance failures with a high level of reliability. Because automatic testing cannot detect
+						all possible WCAG failure types, this means that the actual WCAG 2 A/AA conformance level was certainly
+						lower.
+					</blockquote>
+					<figcaption>WebAim &mdash; <cite>The WebAIM Million</cite></figcaption>
+				</figure>
+
+				<p>
+					<em>Use tooling like the <a href="https://wave.webaim.org/">WAVE web accessibility evaluation tool</a> to evaluate
+					your application!</em>
+				</p>
+			</section>
+			<section>
+				<h2>How to test your web application</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>For a user with...</th>
+							<th>...test with...</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								visual impairments 👩🏻‍🦯
+							</td>
+							<td>
+								screenreaders
+							</td>
+						</tr>
+						<tr>
+							<td>
+								cognitive limitations 😩
+							</td>
+							<td>
+								user tests
+							</td>
+						</tr>
+						<tr>
+							<td>
+								auditory impairments 🧏🏿
+							</td>
+							<td>
+								sound turned off<br>
+								<small>(ensure transcripts, closed captions available)</small>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								different color perceptions 🎨
+							</td>
+							<td>
+								color contrast checkers, color blindness simulators
+							</td>
+						</tr>
+						<tr>
+							<td>
+								epilepsy or motion sickness 🏎️
+							</td>
+							<td>
+								<strong><code>prefers-reduced-motion: reduce</code></strong> activated!
+							</td>
+						</tr>
+						<tr>
+							<td>
+								physical impairments ⌨️
+							</td>
+							<td>
+								keyboards
+							</td>
+						</tr>
+						<tr>
+							<td>
+								inexpensive hardware 📱
+							</td>
+							<td>
+								cheap mobile devices
+							</td>
+						</tr>
+					</body>
+				</table>
+			</section>
+			<section>
+				<h2>Next Steps</h2>
+				<p>
+					Subscribe to a newsletter like <a href="https://a11yweekly.com/">A11y Weekly</a> to learn more
+					about accessibility and hear stories from different user groups!
+				</p>
 			</section>
 			<section class="presentation-only">
 				<p><strong>Thank you!</strong></p>
