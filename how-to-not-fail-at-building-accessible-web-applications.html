@@ -261,6 +261,16 @@ ol[role='list'] {
 				<h3>Use a <a href="https://webaim.org/resources/contrastchecker/">color contrast checker</a> to ensure that all color combinations pass at least the WCAG 2.0 AA level</h3>
 			</section>
 			<section>
+				<h3>Focus Styles with sufficient contrast!</h3>
+				<p>With <code>focus-visible</code> we can turn off focus rings for users who are navigating with a mouse.</p>
+<pre class="language-css" aria-label="CSS Code for removing focus styles when focus is not visible"><code>/* Remove outline styles when the user is not navigating with
+the keyboard */
+&:focus:not(:focus-visible) {
+	border-color: transparent;
+	outline: none;
+}</code></pre>
+			</section>
+			<section>
 				<h3>Example: Navbar with only HTML and CSS</h3>
 
 				<div class="frame-wrapper">
