@@ -22,12 +22,14 @@
 	overflow: auto;
 }
 
-.slides ul:not([role=list]) {
+.slides ul:not([role=list]),
+.slides ol:not([role=list]) {
 	max-width: max-content;
 	margin: auto;
 }
 
 .slides ul:not([role=list]),
+.slides ol:not([role=list]),
 .slides table,
 .slides pre {
 	text-align: left;
