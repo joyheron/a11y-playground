@@ -2,8 +2,17 @@ function slidesActivated() {
 	return new URLSearchParams(window.location.search).get("slides") !== null;
 }
 
+function abridgedActivated() {
+	return new URLSearchParams(window.location.search).get("abridged") !== null;
+}
+
 function initializeSlides() {
 	document.body.classList.add("slides");
+
+	if (abridgedActivated()) {
+		document.body.classList.add("abridged");
+	}
+
 	let main = document.querySelector("main");
 	main.querySelectorAll("main > section").forEach((e, i) => {
 		initializeSlide(e, i);

@@ -8,7 +8,7 @@
 .slides > main {
 	display: flex;
 	overflow: auto;
-	min-height: 100vh;
+	height: 100vh;
 	align-items: center;
 	scroll-snap-type: x mandatory;
 }

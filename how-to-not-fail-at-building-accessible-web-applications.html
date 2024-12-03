@@ -11,6 +11,9 @@
 		<link href="prism-theme.css" rel="stylesheet">
 		<link href="slides.css" rel="stylesheet">
 		<style>
+			* {
+				box-sizing: border-box;
+			}
 			body {
 				font-family:  "FFMarkWebPro", "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;;
 			}
@@ -20,11 +23,14 @@
 			.slides {
 				--container-width: 55ch;
 			}
+			.abridged .abridge {
+				display: none;
+			}
 			pre {
 				padding: var(--spacer-sm);
 				margin: 0 calc(-1 * var(--spacer-sm));
 				overflow: auto;
-				max-height: 55rem;
+				max-height: 45rem;
 			}
 			figure {
 				border: 1px solid black;
@@ -114,7 +120,7 @@
 					}
 				</style>
 			</section>
-			<section>
+			<section class="abridge">
 				<h3>Web Content Accessibility Guidelines (WGAG) 2.2 Principles</h3>
 				<ol>
 					<li><a href="https://www.w3.org/TR/WCAG22/#perceivable">Perceivable</a></li>
@@ -124,7 +130,7 @@
 				</ol>
 			</section>
 			<section>
-				<h2>Begin by building <em>and testing</em> the HTML layer</h2>
+				<h2>Step 1: Begin by building <em>and testing</em> the HTML layer</h2>
 			</section>
 			<section>
 				<h3>Consider multiple possible semantic HTML layers which would work as a base</h3>
@@ -155,7 +161,7 @@
 				<iframe src="https://responsibleweb.app/#Accessible-Web-Design"></iframe>
 			</section>
 			<section>
-				<h2>Add a CSS layer to implement the design</h2>
+				<h2>Step 2: Add a CSS layer to implement the design</h2>
 			</section>
 			<section>
 				<h2>Style skip links so that they are hidden except when focused</h2>
@@ -301,7 +307,7 @@ the keyboard */
 				</style>
 			</section>
 			<section>
-				<h2>Add JavaScript to improve the design</h2>
+				<h2>Step 3: Add JavaScript to improve the design</h2>
 			</section>
 			<section>
 				<h3>Progressively-enhance <code>&lt;details&gt;</code> elements to become a toggle button using <code>aria-expanded</code></h3>
@@ -558,7 +564,7 @@ customElements.define('sub-menu', Submenu);</code></pre>
 					</body>
 				</table>
 			</section>
-			<section>
+			<section class="abridge">
 				<h2>Next Steps</h2>
 				<p>
 					Subscribe to a newsletter like <a href="https://a11yweekly.com/">A11y Weekly</a> to learn more
