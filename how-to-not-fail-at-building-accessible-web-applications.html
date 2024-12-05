@@ -30,7 +30,7 @@
 				padding: var(--spacer-sm);
 				margin: 0 calc(-1 * var(--spacer-sm));
 				overflow: auto;
-				max-height: 45rem;
+				max-height: 55rem;
 			}
 			figure {
 				border: 1px solid black;
@@ -54,6 +54,9 @@
 			}
 			td {
 				font-size: 0.9em;
+			}
+			h3:has(code) {
+				line-height: 1.5;
 			}
 		</style>
 		<script defer src="slides.js"></script>
@@ -139,22 +142,22 @@
 				<p><small><em>It may be necessary to add minimal amounts of JavaScript to test any widgets that we want to add.</em></small></p>
 			</section>
 			<section>
+				<h3>Add a few choice ARIA attributes to improve the accessibility of your markup</h3>
+				<ul>
+					<li>Add a descriptive <code>aria-label</code> to each <code>ul</code> unordered list</li>
+					<li>Indicate link to current page with <code>aria-current="page"</code></li>
+					<li class="abridge">Add <code>role="list"</code> to all lists where we are going to change the <code>display</code> property with CSS
+						(See <a href="https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html">Blog Post on "Fixing Lists" by Scott O'Hara</a>)
+					</li>
+				</ul>
+			</section>
+			<section>
 				<h3>Example: HTML-only Navbar</h3>
 				<iframe src="navbar-example.html?nostyle&noscript"></iframe>
 				<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code>&lt;details&gt;</code></a> elements are a great HTML-only fallback!</p>
 			</section>
 			<section>
 				<h3>Add <a href="https://webaim.org/techniques/skipnav/">skip links</a> to improve navigation for keyboard users</h3>
-			</section>
-			<section>
-				<h3>Add a few choice ARIA attributes to improve the accessibility of your markup</h3>
-				<ul>
-					<li>Add a descriptive <code>aria-label</code> to each <code>ul</code> unordered list</li>
-					<li>Indicate link to current page with <code>aria-current="page"</code></li>
-					<li>Add <code>role="list"</code> to all lists where we are going to change the <code>display</code> property with CSS
-						(See <a href="https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html">Blog Post on "Fixing Lists" by Scott O'Hara</a>)
-					</li>
-				</ul>
 			</section>
 			<section>
 				<h3>What are all of the points that we need to consider to make the HTML of a website accessible?</h3>
@@ -187,7 +190,7 @@ a[aria-current='page'] {
 </code></pre>
 				<p>See <a href="https://adrianroselli.com/2021/06/using-css-to-enforce-accessibility.html">Blog Post on "Using CSS to Enforce Accessibility" by Adrian Roselli</a></p>
 			</section>
-			<section>
+			<section class="abridge">
 				<h3>Add rule only removing list styles when we have added a <code>role</code> attribute to a list</h3>
 <pre class="language-css" aria-label="CSS code to remove list styles from an HTML list with the role attribute"><code>/* Removing `list-style` attributes causes the list to no longer
 appear as a list in the accessibility tree. As a workaround, this
@@ -202,25 +205,25 @@ ol[role='list'] {
 			</section>
 			<section>
 				<h3>Define CSS properties to tweak the theme based on CSS media features</h3>
-<pre class="language-css" aria-label="CSS code defining CSS properties based on CSS media features"><code>@media (prefers-reduced-motion: no-preference) {
-	--grid-row-transition: grid-template-rows #{$transition-speed} #{$transition-easing};
-	--visibility-transition: visibility #{$transition-speed} #{$transition-easing};
+<pre class="language-css" aria-label="CSS code defining CSS properties based on CSS media features"><code>@media (prefers-reduced-motion: no-preference) { /* ❤️ 🏎️ */
+	--grid-row-transition: grid-template-rows #{$speed} #{$easing};
+	--visibility-transition: visibility #{$speed} #{$easing};
 }
 
-@media (forced-colors: active) {
+@media (forced-colors: active) { /* ❤️ 🎨 */
 	--forced-colors-link-border-width: 0;
 	--forced-colors-action-margin: #{$navbar-focus-outline-width};
 	--forced-colors-link-decoration: underline;
 	--forced-colors-navbar-toggler-width: 10rem;
 }
 
-@media (pointer: fine) {
+@media (pointer: fine) { /* ❤️ 📱 vs. 🖱️ */
 	--pointer-fine-navbar-meta-font-size: #{$small-font-size};
 	--pointer-fine-navbar-meta-spacer: #{$spacer-xs * 0.5};
 }
 </code></pre>
 			</section>
-			<section>
+			<section class="abridge">
 				<h3>Use defined CSS properties instead of hard coded values</h3>
 <pre class="language-css" aria-label="CSS code defining CSS properties based on CSS media features"><code>&[data-expanded] {
 	grid-template-rows: var(--main-navigation-grid-template-rows);
@@ -268,10 +271,14 @@ ol[role='list'] {
 				<h3>Use a <a href="https://webaim.org/resources/contrastchecker/">color contrast checker</a> to ensure that all color combinations pass at least the WCAG 2.0 AA level</h3>
 			</section>
 			<section>
-				<h3>Focus Styles with sufficient contrast!</h3>
+				<h3>Ensure focus Styles have sufficient contrast!</h3>
 				<p>With <code>focus-visible</code> we can turn off focus rings for users who are navigating with a mouse.</p>
-<pre class="language-css" aria-label="CSS Code for removing focus styles when focus is not visible"><code>/* Remove outline styles when the user is not navigating with
-the keyboard */
+<pre class="language-css" aria-label="CSS Code for removing focus styles when focus is not visible"><code>/* double ring for focus to improve contrast */
+&:focus {
+	border-color: $navbar-link-hover-color;
+	outline: 2px solid $navbar-lightened-bg;
+}
+/* Remove outline styles when keyboard not being used */
 &:focus:not(:focus-visible) {
 	border-color: transparent;
 	outline: none;
@@ -311,7 +318,61 @@ the keyboard */
 			</section>
 			<section>
 				<h3>Progressively-enhance <code>&lt;details&gt;</code> elements to become a toggle button using <code>aria-expanded</code></h3>
-<pre class="language-javascript" aria-label="JavaScript Code to progressively enhance details element"><code>export default class Submenu extends HTMLElement {
+				<p>
+					<small><em>
+						needed here "only" to add animation to submenu toggle and hover
+					</em></small>
+				</p>
+				<div class="html-enhancement">
+<pre aria-label="HTML for submenu using a details element"><code class="language-markup">&lt;sub-menu&gt;
+	&lt;details&gt;
+		&lt;summary&gt;
+			...
+		&lt;/summary&gt;
+		&lt;ul role="list"
+				aria-label="..."&gt;
+			...
+		&lt;/ul&gt;
+	&lt;/details&gt;
+&lt;/sub-menu&gt;
+</code></pre>
+<span>➡️</span>
+<pre aria-label="HTML after sub-menu has activated the progressive enhancement"><code class="language-markup">&lt;sub-menu&gt;
+	&lt;button type="button"
+					aria-expanded="false"&gt;
+		...
+	&lt;/button&gt;
+	&lt;div&gt;
+		&lt;ul role="list"
+				aria-label="..."&gt;
+			...
+		&lt;/ul&gt;
+	&lt;/div&gt;
+&lt;/sub-menu&gt;
+</code></pre>
+				</div>
+
+				<style>
+					@media (min-width: 30rem) {
+						.html-enhancement {
+							display: flex;
+							flex-wrap: wrap;
+							align-items: center;
+						}
+						.html-enhancement > span {
+							margin: 0 calc(1.5 * var(--spacer-base));
+						}
+						.html-enhancement > pre {
+							flex-grow: 1;
+						}
+					}
+				</style>
+
+				<a class="presentation-only" href="./how-to-not-fail-at-building-accessible-web-applications.html#js-submenu" target="_blank">Code for <code>sub-menu</code> custom element</a>
+			</section>
+			<section class="site-only">
+				<h4 id="js-submenu">Code for <code>sub-menu</code> custom element</h4>
+<pre class="language-javascript " aria-label="JavaScript Code to progressively enhance details element"><code>export default class Submenu extends HTMLElement {
 	connectedCallback() {
 		let summary = this.querySelector('summary')
 		let ul = this.querySelector('ul')
@@ -362,8 +423,22 @@ customElements.define('sub-menu', Submenu);</code></pre>
 			</section>
 			<section>
 				<h3>Hook CSS styles for showing/hiding the menu to the <code>aria-expanded</code> attribute</h3>
-				<p>This ensure that the attribute is correctly defined on the <em><strong>button</strong></em></p>
-<pre class="language-css" aria-label="CSS Code for expanding/collapsing submenu"><code>sub-menu {
+				<p>This ensures that the attribute is correctly defined on the <em><strong>button</strong></em></p>
+<pre aria-label="truncated CSS Code for expanding/collapsing submenu"><code class="language-css">sub-menu {
+	button[aria-expanded='false'] + div {
+		/* styles for collapsed submenu */
+	}
+
+	button[aria-expanded='true'] + div {
+		/* styles for expanded submenu */
+	}
+}
+</code></pre>
+				<a class="presentation-only" target="_blank" href="./how-to-not-fail-at-building-accessible-web-applications.html#css-expand">Full CSS Code for collapsing and expanding submenu</a>
+			</section>
+			<section class="site-only">
+				<h4 id="css-expand">Full CSS Code for collapsing and expanding submenu</h3>
+<pre class="language-css" aria-label="full CSS Code for expanding/collapsing submenu"><code>sub-menu {
 	div {
 		display: grid;
 		overflow: hidden;
@@ -398,9 +473,9 @@ customElements.define('sub-menu', Submenu);</code></pre>
 				</div>
 			</section>
 			<section>
-				<h3>When else may I need JavaScript?</h3>
+				<h3>When else may I <del>need</del> <ins>want</ins> JavaScript?</h3>
 			</section>
-			<section>
+			<section class="abridge">
 				<h4>If something changes on page, it is necessary to <em>announce</em> this to the user</h4>
 
 				<ul>
@@ -417,6 +492,14 @@ customElements.define('sub-menu', Submenu);</code></pre>
 						not only users of assistive technology
 					</li>
 				</ul>
+			</section>
+			<section>
+				<h4><a href="https://www.w3.org/TR/using-aria/#firstrule">First rule of ARIA</a></h4>
+				<blockquote>
+					If you <em>can</em> use a native HTML element or attribute with the semantics and behavior you require
+					<strong>already built in</strong>, instead of re-purposing an element and adding an ARIA role, state
+					or property to make it accessible, <strong>then do so.</strong>
+				</blockquote>
 			</section>
 			<section>
 				<h4>Know your widgets</h4>
@@ -463,36 +546,30 @@ customElements.define('sub-menu', Submenu);</code></pre>
 									(prefer using a built-in <code>&lt;select&gt;</code>)
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions">ARIA live regions</a>
+								</td>
+								<td>
+									Change content of an <code>aria-live="polite"</code> region to announce changes to user.
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</section>
-			<section>
-				<h4><a href="https://www.w3.org/TR/using-aria/#firstrule">First rule of ARIA</a></h4>
-				<blockquote>
-					If you <em>can</em> use a native HTML element or attribute with the semantics and behavior you require
-					<strong>already built in</strong>, instead of re-purposing an element and adding an ARIA role, state
-					or property to make it accessible, <strong>then do so.</strong>
-				</blockquote>
-			</section>
-			<section>
+			<section class="abridge">
 				<h2>Accessibility Evaluation Tooling</h2>
 				<figure>
 					<blockquote cite="https://webaim.org/projects/million/">
-						96.3% of home pages had detected <a href="https://webaim.org/standards/wcag/checklist">WCAG 2</a> failures!
-						This improved very slightly from 96.8% in 2022. Over the last 4 years, the pages with detectable WCAG
-						failures has decreased by only 1.5% from 97.8%. These are only automatically detected errors that align
-						with WCAG conformance failures with a high level of reliability. Because automatic testing cannot detect
-						all possible WCAG failure types, this means that the actual WCAG 2 A/AA conformance level was certainly
-						lower.
+						95.9% of home pages had detected <a href="https://webaim.org/standards/wcag/checklist">WCAG 2</a> failures.
+						This improved slightly from 96.3% in 2023. Over the last 5 years, the pages with detectable WCAG failures
+						have decreased by only 1.9% from 97.8%. These are only automatically detected errors that align with WCAG
+						conformance failures with a high level of reliability which suggests that the rate of full WCAG 2 A/AA
+						conformance was certainly lower.
 					</blockquote>
 					<figcaption>WebAim &mdash; <cite>The WebAIM Million</cite></figcaption>
 				</figure>
-
-				<p>
-					<em>Use tooling like the <a href="https://wave.webaim.org/">WAVE web accessibility evaluation tool</a> or
-					<a href="https://accessibilityinsights.io/">Accessibility Insights</a> to evaluate your application!</em>
-				</p>
 			</section>
 			<section>
 				<h2>How to test your web application</h2>
@@ -563,6 +640,10 @@ customElements.define('sub-menu', Submenu);</code></pre>
 						</tr>
 					</body>
 				</table>
+				<p>
+					<em>Automate some checks with <a href="https://wave.webaim.org/">WAVE web accessibility evaluation tool</a> or
+					<a href="https://accessibilityinsights.io/">Accessibility Insights</a>.</em>
+				</p>
 			</section>
 			<section class="abridge">
 				<h2>Next Steps</h2>
